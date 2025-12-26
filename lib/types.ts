@@ -35,6 +35,43 @@ export enum AttendanceStatus {
     LEAVE = 'LEAVE',
 }
 
+export enum QuestionType {
+    MCQ = 'MCQ',
+    TRUE_FALSE = 'TRUE_FALSE',
+    SHORT_ANSWER = 'SHORT_ANSWER',
+    LONG_ANSWER = 'LONG_ANSWER',
+    FILL_BLANK = 'FILL_BLANK',
+}
+
+export enum DifficultyLevel {
+    EASY = 'EASY',
+    MEDIUM = 'MEDIUM',
+    HARD = 'HARD',
+}
+
+export enum AssessmentType {
+    QUIZ = 'QUIZ',
+    ASSIGNMENT = 'ASSIGNMENT',
+    PRACTICE_TEST = 'PRACTICE_TEST',
+    MOCK_EXAM = 'MOCK_EXAM',
+}
+
+export enum AttemptStatus {
+    IN_PROGRESS = 'IN_PROGRESS',
+    SUBMITTED = 'SUBMITTED',
+    GRADED = 'GRADED',
+    ABANDONED = 'ABANDONED',
+}
+
+export enum ExamType {
+    MID_TERM = 'MID_TERM',
+    FINAL = 'FINAL',
+    UNIT_TEST = 'UNIT_TEST',
+    MOCK = 'MOCK',
+    SURPRISE_TEST = 'SURPRISE_TEST',
+}
+
+
 // ============================================
 // AUTH TYPES
 // ============================================
@@ -582,3 +619,319 @@ export interface PageInfo {
     hasPreviousPage: boolean;
     total: number;
 }
+
+// ============================================
+// EXAM MANAGEMENT TYPES
+// ============================================
+
+// Question Category
+export interface QuestionCategory {
+    id: string;
+    tenantId: number;
+    branchId: number;
+    departmentId?: number;
+    subjectId?: number;
+    name: string;
+    description?: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface QuestionCategoryInput {
+    tenantId: number;
+    branchId: number;
+    departmentId?: number;
+    subjectId?: number;
+    name: string;
+    description?: string;
+}
+
+// Question
+export interface Question {
+    id: string;
+    tenantId: number;
+    branchId: number;
+    subjectId?: number;
+    categoryId?: number;
+    questionType: QuestionType;
+    questionText: string;
+    questionImageUrl?: string;
+    marks: number;
+    difficultyLevel: DifficultyLevel;
+    options?: Record<string, string>;
+    correctAnswer?: string;
+    explanation?: string;
+    tags?: string[];
+    createdBy: number;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface QuestionInput {
+    tenantId: number;
+    branchId: number;
+    subjectId?: number;
+    categoryId?: number;
+    questionType: QuestionType;
+    questionText: string;
+    questionImageUrl?: string;
+    marks: number;
+    difficultyLevel: DifficultyLevel;
+    options?: Record<string, string>;
+    correctAnswer?: string;
+    explanation?: string;
+    tags?: string[];
+    createdBy: number;
+}
+
+export interface UpdateQuestionInput {
+    subjectId?: number;
+    categoryId?: number;
+    questionType?: QuestionType;
+    questionText?: string;
+    questionImageUrl?: string;
+    marks?: number;
+    difficultyLevel?: DifficultyLevel;
+    options?: Record<string, string>;
+    correctAnswer?: string;
+    explanation?: string;
+    tags?: string[];
+    isActive?: boolean;
+}
+
+// Assessment
+export interface Assessment {
+    id: string;
+    tenantId: number;
+    branchId: number;
+    academicYearId: number;
+    subjectId?: number;
+    classId?: number;
+    name: string;
+    description?: string;
+    assessmentType: AssessmentType;
+    duration?: number;
+    totalMarks: number;
+    passingMarks?: number;
+    startDateTime?: string;
+    endDateTime?: string;
+    instructions?: string;
+    allowReview: boolean;
+    shuffleQuestions: boolean;
+    showCorrectAnswers: boolean;
+    attemptsAllowed: number;
+    createdBy: number;
+    isActive: boolean;
+    isPublished: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface AssessmentInput {
+    tenantId: number;
+    branchId: number;
+    academicYearId: number;
+    subjectId?: number;
+    classId?: number;
+    name: string;
+    description?: string;
+    assessmentType: AssessmentType;
+    duration?: number;
+    totalMarks: number;
+    passingMarks?: number;
+    startDateTime?: string;
+    endDateTime?: string;
+    instructions?: string;
+    allowReview?: boolean;
+    shuffleQuestions?: boolean;
+    showCorrectAnswers?: boolean;
+    attemptsAllowed?: number;
+    createdBy: number;
+}
+
+export interface UpdateAssessmentInput {
+    name?: string;
+    description?: string;
+    assessmentType?: AssessmentType;
+    duration?: number;
+    totalMarks?: number;
+    passingMarks?: number;
+    startDateTime?: string;
+    endDateTime?: string;
+    instructions?: string;
+    allowReview?: boolean;
+    shuffleQuestions?: boolean;
+    showCorrectAnswers?: boolean;
+    attemptsAllowed?: number;
+    isActive?: boolean;
+}
+
+// Assessment Question
+export interface AssessmentQuestion {
+    id: string;
+    assessmentId: number;
+    questionId: number;
+    orderNumber: number;
+    marks: number;
+    createdAt: string;
+}
+
+export interface AssessmentQuestionInput {
+    questionId: number;
+    orderNumber: number;
+    marks: number;
+}
+
+// Student Assessment Attempt
+export interface StudentAssessmentAttempt {
+    id: string;
+    assessmentId: number;
+    studentId: number;
+    attemptNumber: number;
+    startTime: string;
+    submitTime?: string;
+    status: AttemptStatus;
+    totalMarks?: number;
+    marksObtained?: number;
+    percentage?: number;
+    grade?: string;
+    feedback?: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+// Student Answer
+export interface StudentAnswer {
+    id: string;
+    attemptId: number;
+    questionId: number;
+    answerText?: string;
+    answerOption?: string;
+    attachmentUrl?: string;
+    marksAwarded?: number;
+    isCorrect?: boolean;
+    feedback?: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface StudentAnswerInput {
+    attemptId: number;
+    questionId: number;
+    answerText?: string;
+    answerOption?: string;
+    attachmentUrl?: string;
+}
+
+export interface GradeAnswerInput {
+    answerId: number;
+    marksAwarded: number;
+    isCorrect?: boolean;
+    feedback?: string;
+}
+
+// Grade Scale
+export interface GradeScale {
+    id: string;
+    tenantId: number;
+    branchId: number;
+    name: string;
+    description?: string;
+    minPercentage: number;
+    maxPercentage: number;
+    grade: string;
+    gradePoint?: number;
+    remarks?: string;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface GradeScaleInput {
+    tenantId: number;
+    branchId: number;
+    name: string;
+    description?: string;
+    minPercentage: number;
+    maxPercentage: number;
+    grade: string;
+    gradePoint?: number;
+    remarks?: string;
+}
+
+export interface UpdateGradeScaleInput {
+    name?: string;
+    description?: string;
+    minPercentage?: number;
+    maxPercentage?: number;
+    grade?: string;
+    gradePoint?: number;
+    remarks?: string;
+    isActive?: boolean;
+}
+
+// Report Card
+export interface ReportCard {
+    id: string;
+    tenantId: number;
+    branchId: number;
+    academicYearId: number;
+    studentId: number;
+    examId?: number;
+    classId: number;
+    term?: string;
+    overallMarks?: number;
+    totalMarks?: number;
+    percentage?: number;
+    grade?: string;
+    rank?: number;
+    attendance?: number;
+    remarks?: string;
+    teacherComments?: string;
+    principalComments?: string;
+    reportData: Record<string, any>;
+    generatedAt: string;
+    generatedBy: number;
+    isPublished: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface ReportCardInput {
+    tenantId: number;
+    branchId: number;
+    academicYearId: number;
+    studentId: number;
+    examId?: number;
+    classId: number;
+    term?: string;
+    overallMarks?: number;
+    totalMarks?: number;
+    percentage?: number;
+    grade?: string;
+    rank?: number;
+    attendance?: number;
+    remarks?: string;
+    teacherComments?: string;
+    principalComments?: string;
+    reportData: Record<string, any>;
+    generatedBy: number;
+}
+
+export interface UpdateReportCardInput {
+    term?: string;
+    overallMarks?: number;
+    totalMarks?: number;
+    percentage?: number;
+    grade?: string;
+    rank?: number;
+    attendance?: number;
+    remarks?: string;
+    teacherComments?: string;
+    principalComments?: string;
+    reportData?: Record<string, any>;
+    isPublished?: boolean;
+}
+

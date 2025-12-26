@@ -683,3 +683,400 @@ export const GET_PERIOD_TEMPLATES = gql`
     }
   }
 `;
+
+// ============================================
+// EXAM MANAGEMENT QUERIES
+// ============================================
+
+// Question Queries
+export const GET_QUESTIONS = gql`
+  query GetQuestions(
+    $branchId: Int
+    $subjectId: Int
+    $categoryId: Int
+    $questionType: String
+    $difficultyLevel: String
+    $skip: Int
+    $take: Int
+  ) {
+    questions(
+      branchId: $branchId
+      subjectId: $subjectId
+      categoryId: $categoryId
+      questionType: $questionType
+      difficultyLevel: $difficultyLevel
+      skip: $skip
+      take: $take
+    ) {
+      id
+      tenantId
+      branchId
+      subjectId
+      categoryId
+      questionType
+      questionText
+      questionImageUrl
+      marks
+      difficultyLevel
+      options
+      correctAnswer
+      explanation
+      tags
+      createdBy
+      isActive
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const GET_QUESTION = gql`
+  query GetQuestion($id: ID!) {
+    question(id: $id) {
+      id
+      tenantId
+      branchId
+      subjectId
+      categoryId
+      questionType
+      questionText
+      questionImageUrl
+      marks
+      difficultyLevel
+      options
+      correctAnswer
+      explanation
+      tags
+      createdBy
+      isActive
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const GET_QUESTION_CATEGORIES = gql`
+  query GetQuestionCategories(
+    $branchId: Int
+    $subjectId: Int
+    $skip: Int
+    $take: Int
+  ) {
+    questionCategories(
+      branchId: $branchId
+      subjectId: $subjectId
+      skip: $skip
+      take: $take
+    ) {
+      id
+      tenantId
+      branchId
+      departmentId
+      subjectId
+      name
+      description
+      isActive
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+// Assessment Queries
+export const GET_ASSESSMENTS = gql`
+  query GetAssessments(
+    $branchId: Int
+    $academicYearId: Int
+    $subjectId: Int
+    $classId: Int
+    $assessmentType: String
+    $skip: Int
+    $take: Int
+  ) {
+    assessments(
+      branchId: $branchId
+      academicYearId: $academicYearId
+      subjectId: $subjectId
+      classId: $classId
+      assessmentType: $assessmentType
+      skip: $skip
+      take: $take
+    ) {
+      id
+      tenantId
+      branchId
+      academicYearId
+      subjectId
+      classId
+      name
+      description
+      assessmentType
+      duration
+      totalMarks
+      passingMarks
+      startDateTime
+      endDateTime
+      instructions
+      allowReview
+      shuffleQuestions
+      showCorrectAnswers
+      attemptsAllowed
+      createdBy
+      isActive
+      isPublished
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const GET_ASSESSMENT = gql`
+  query GetAssessment($id: ID!) {
+    assessment(id: $id) {
+      id
+      tenantId
+      branchId
+      academicYearId
+      subjectId
+      classId
+      name
+      description
+      assessmentType
+      duration
+      totalMarks
+      passingMarks
+      startDateTime
+      endDateTime
+      instructions
+      allowReview
+      shuffleQuestions
+      showCorrectAnswers
+      attemptsAllowed
+      createdBy
+      isActive
+      isPublished
+      createdAt
+      updatedAt
+      questions {
+        id
+        questionId
+        orderNumber
+        marks
+        question {
+          id
+          questionText
+          questionType
+          options
+          marks
+        }
+      }
+    }
+  }
+`;
+
+export const GET_MY_ASSESSMENTS = gql`
+  query GetMyAssessments {
+    myAssessments {
+      id
+      name
+      description
+      assessmentType
+      duration
+      totalMarks
+      startDateTime
+      endDateTime
+      attemptsAllowed
+      subject {
+        id
+        name
+      }
+    }
+  }
+`;
+
+// Student Attempt Queries
+export const GET_STUDENT_ASSESSMENT_ATTEMPT = gql`
+  query GetStudentAssessmentAttempt($id: ID!) {
+    studentAssessmentAttempt(id: $id) {
+      id
+      assessmentId
+      studentId
+      attemptNumber
+      startTime
+      submitTime
+      status
+      totalMarks
+      marksObtained
+      percentage
+      grade
+      feedback
+      createdAt
+      updatedAt
+      assessment {
+        id
+        name
+        totalMarks
+      }
+      student {
+        id
+        firstName
+        lastName
+      }
+      answers {
+        id
+        questionId
+        answerText
+        answerOption
+        marksAwarded
+        isCorrect
+        feedback
+        question {
+          id
+          questionText
+          questionType
+          marks
+          options
+          correctAnswer
+        }
+      }
+    }
+  }
+`;
+
+// Grade Scale Queries
+export const GET_GRADE_SCALES = gql`
+  query GetGradeScales($branchId: Int, $skip: Int, $take: Int) {
+    gradeScales(branchId: $branchId, skip: $skip, take: $take) {
+      id
+      tenantId
+      branchId
+      name
+      description
+      minPercentage
+      maxPercentage
+      grade
+      gradePoint
+      remarks
+      isActive
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const GET_GRADE_SCALE = gql`
+  query GetGradeScale($id: ID!) {
+    gradeScale(id: $id) {
+      id
+      tenantId
+      branchId
+      name
+      description
+      minPercentage
+      maxPercentage
+      grade
+      gradePoint
+      remarks
+      isActive
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+// Report Card Queries
+export const GET_REPORT_CARDS = gql`
+  query GetReportCards(
+    $branchId: Int
+    $academicYearId: Int
+    $classId: Int
+    $studentId: Int
+    $term: String
+    $skip: Int
+    $take: Int
+  ) {
+    reportCards(
+      branchId: $branchId
+      academicYearId: $academicYearId
+      classId: $classId
+      studentId: $studentId
+      term: $term
+      skip: $skip
+      take: $take
+    ) {
+      id
+      tenantId
+      branchId
+      academicYearId
+      studentId
+      examId
+      classId
+      term
+      overallMarks
+      totalMarks
+      percentage
+      grade
+      rank
+      attendance
+      remarks
+      teacherComments
+      principalComments
+      generatedAt
+      isPublished
+      student {
+        id
+        firstName
+        lastName
+      }
+      class {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const GET_REPORT_CARD = gql`
+  query GetReportCard($id: ID!) {
+    reportCard(id: $id) {
+      id
+      tenantId
+      branchId
+      academicYearId
+      studentId
+      examId
+      classId
+      term
+      overallMarks
+      totalMarks
+      percentage
+      grade
+      rank
+      attendance
+      remarks
+      teacherComments
+      principalComments
+      reportData
+      generatedAt
+      generatedBy
+      isPublished
+      createdAt
+      updatedAt
+      student {
+        id
+        firstName
+        lastName
+        admissionNo
+      }
+      class {
+        id
+        name
+      }
+      exam {
+        id
+        name
+      }
+    }
+  }
+`;
+

@@ -1,28 +1,157 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/lib/store';
+import ErpFeaturesGrid from "@/components/erp-features-grid";
+import AttendanceManagement from "@/components/attendance-management";
+import WhyChooseSection from "@/components/why-choose-section";
+import MobileAppsShowcase from "@/components/mobile-apps-showcase";
+import EnterpriseLMSSection from "@/components/enterprise-lms-section";
+import { HeroHighlightDemo } from "@/components/hero";
+import { LazySection } from "@/components/lazy-section";
+import {
+  Navbar,
+  NavBody,
+  NavItems,
+  MobileNav,
+  NavbarLogo,
+  NavbarButton,
+  MobileNavHeader,
+  MobileNavToggle,
+  MobileNavMenu,
+  NavThemeToogler
+} from "@/components/ui/resizable-navbar";
+import { AnimatedTestimonialsDemo } from "@/components/testimonials";
+import { useTheme } from "next-themes";
+import { useState, useEffect } from "react";
+import FeaturesSectionDemo from "@/components/features-section-demo-3";
+import FeaturesSectionDemo2 from "@/components/features-section-demo-2";
+import { Footer } from "@/components/layout/footer";
 
-export default function Home() {
-  const router = useRouter();
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const hasHydrated = useAuthStore((state) => state._hasHydrated);
+export default function Header() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const navItems = [
+    {
+      name: "Features",
+      link: "#features",
+    },
+    {
+      name: "Pricing",
+      link: "#pricing",
+    },
+    {
+      name: "Contact",
+      link: "#contact",
+    },
+  ];
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const toggleTheme = () => { setTheme(theme === 'dark' ? 'light' : 'dark'); };
+
+  // Prevent hydration errors by only rendering theme toggler after mount
   useEffect(() => {
-    // Wait for hydration before redirecting
-    if (!hasHydrated) {
-      return;
-    }
+    setMounted(true);
+  }, []);
 
-    // Redirect based on authentication status
-    if (isAuthenticated) {
-      router.push('/dashboard');
-    } else {
-      router.push('/login');
-    }
-  }, [isAuthenticated, hasHydrated, router]);
+  return (
+    <div className="relative w-full">
+      <Navbar>
+        {/* Desktop Navigation */}
+        <NavBody>
+          <NavbarLogo />
+          <NavItems items={navItems} />
+          <div className="flex items-center gap-4">
+            {mounted && <NavThemeToogler onClick={toggleTheme} theme={theme || 'light'} />}
+            <NavbarButton variant="secondary">Login</NavbarButton>
+            <NavbarButton variant="primary">Book a call</NavbarButton>
+          </div>
+        </NavBody>
 
-  // Show nothing while checking (prevents flash of content)
-  return null;
+        {/* Mobile Navigation */}
+        <MobileNav>
+          <MobileNavHeader>
+            <NavbarLogo />
+            <MobileNavToggle
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
+          </MobileNavHeader>
+
+          <MobileNavMenu
+            isOpen={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+          >
+            {navItems.map((item, idx) => (
+              <a
+                key={`mobile-link-${idx}`}
+                href={item.link}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="relative text-neutral-600 dark:text-neutral-300"
+              >
+                <span className="block">{item.name}</span>
+              </a>
+            ))}
+            <div className="flex w-full flex-col gap-4">
+              <NavbarButton
+                onClick={() => setIsMobileMenuOpen(false)}
+                variant="primary"
+                className="w-full"
+              >
+                Login
+              </NavbarButton>
+              <NavbarButton
+                onClick={() => setIsMobileMenuOpen(false)}
+                variant="primary"
+                className="w-full"
+              >
+                Book a call
+              </NavbarButton>
+            </div>
+          </MobileNavMenu>
+        </MobileNav>
+      </Navbar>
+      <Content />
+
+      {/* Navbar */}
+    </div>
+  );
 }
+
+const Content = () => {
+
+  return (
+    <div>
+      <HeroHighlightDemo />
+      <LazySection>
+        <FeaturesSectionDemo />
+      </LazySection>
+      <LazySection>
+        <ErpFeaturesGrid />
+      </LazySection>
+      <LazySection>
+        <AttendanceManagement />
+      </LazySection>
+      <LazySection>
+        <WhyChooseSection />
+      </LazySection>
+      <LazySection>
+        <MobileAppsShowcase />
+      </LazySection>
+      <LazySection>
+        <EnterpriseLMSSection />
+      </LazySection>
+      <LazySection>
+        <AnimatedTestimonialsDemo />
+      </LazySection>
+      <LazySection>
+        <Footer
+          builtBy="Inloom"
+          builtByLink="https://myschool.in"
+          githubLink="https://github.com/myschool"
+          twitterLink="https://twitter.com/myschool"
+          linkedinLink="https://linkedin.com/myschool"
+        />
+      </LazySection>
+    </div>
+  );
+};
+

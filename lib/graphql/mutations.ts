@@ -606,3 +606,215 @@ export const DELETE_SUBSTITUTION = gql`
     deleteSubstitution(id: $id)
   }
 `;
+
+// ============================================
+// EXAM MANAGEMENT MUTATIONS
+// ============================================
+
+// Question Mutations
+export const ADD_QUESTION = gql`
+  mutation AddQuestion($input: QuestionInput!) {
+    addQuestion(input: $input) {
+      id
+      questionText
+      questionType
+      marks
+      difficultyLevel
+      isActive
+    }
+  }
+`;
+
+export const UPDATE_QUESTION = gql`
+  mutation UpdateQuestion($id: ID!, $input: UpdateQuestionInput!) {
+    updateQuestion(id: $id, input: $input) {
+      id
+      questionText
+      questionType
+      marks
+      difficultyLevel
+      isActive
+    }
+  }
+`;
+
+export const DELETE_QUESTION = gql`
+  mutation DeleteQuestion($id: ID!) {
+    deleteQuestion(id: $id)
+  }
+`;
+
+export const ADD_QUESTION_CATEGORY = gql`
+  mutation AddQuestionCategory($input: QuestionCategoryInput!) {
+    addQuestionCategory(input: $input) {
+      id
+      name
+      description
+      isActive
+    }
+  }
+`;
+
+// Assessment Mutations
+export const CREATE_ASSESSMENT = gql`
+  mutation CreateAssessment($input: AssessmentInput!) {
+    createAssessment(input: $input) {
+      id
+      name
+      assessmentType
+      totalMarks
+      duration
+      isActive
+      isPublished
+    }
+  }
+`;
+
+export const UPDATE_ASSESSMENT = gql`
+  mutation UpdateAssessment($id: ID!, $input: UpdateAssessmentInput!) {
+    updateAssessment(id: $id, input: $input) {
+      id
+      name
+      assessmentType
+      totalMarks
+      duration
+      isActive
+      isPublished
+    }
+  }
+`;
+
+export const PUBLISH_ASSESSMENT = gql`
+  mutation PublishAssessment($id: ID!) {
+    publishAssessment(id: $id) {
+      id
+      isPublished
+    }
+  }
+`;
+
+export const ADD_QUESTIONS_TO_ASSESSMENT = gql`
+  mutation AddQuestionsToAssessment($assessmentId: Int!, $questions: [AssessmentQuestionInput!]!) {
+    addQuestionsToAssessment(assessmentId: $assessmentId, questions: $questions)
+  }
+`;
+
+// Student Attempt Mutations
+export const START_ASSESSMENT = gql`
+  mutation StartAssessment($assessmentId: Int!) {
+    startAssessment(assessmentId: $assessmentId) {
+      id
+      assessmentId
+      studentId
+      attemptNumber
+      startTime
+      status
+    }
+  }
+`;
+
+export const SUBMIT_ANSWER = gql`
+  mutation SubmitAnswer($input: StudentAnswerInput!) {
+    submitAnswer(input: $input) {
+      id
+      questionId
+      answerText
+      answerOption
+      marksAwarded
+      isCorrect
+    }
+  }
+`;
+
+export const SUBMIT_ASSESSMENT = gql`
+  mutation SubmitAssessment($attemptId: Int!) {
+    submitAssessment(attemptId: $attemptId) {
+      id
+      status
+      submitTime
+      marksObtained
+      percentage
+    }
+  }
+`;
+
+// Grading Mutations
+export const GRADE_ANSWER = gql`
+  mutation GradeAnswer($input: GradeAnswerInput!) {
+    gradeAnswer(input: $input) {
+      id
+      marksAwarded
+      isCorrect
+      feedback
+    }
+  }
+`;
+
+export const ADD_GRADE_SCALE = gql`
+  mutation AddGradeScale($input: GradeScaleInput!) {
+    addGradeScale(input: $input) {
+      id
+      name
+      grade
+      minPercentage
+      maxPercentage
+      gradePoint
+      remarks
+    }
+  }
+`;
+
+export const UPDATE_GRADE_SCALE = gql`
+  mutation UpdateGradeScale($id: ID!, $input: UpdateGradeScaleInput!) {
+    updateGradeScale(id: $id, input: $input) {
+      id
+      name
+      grade
+      minPercentage
+      maxPercentage
+      gradePoint
+      remarks
+    }
+  }
+`;
+
+// Report Card Mutations
+export const GENERATE_REPORT_CARD = gql`
+  mutation GenerateReportCard($input: ReportCardInput!) {
+    generateReportCard(input: $input) {
+      id
+      studentId
+      term
+      overallMarks
+      totalMarks
+      percentage
+      grade
+      rank
+      generatedAt
+    }
+  }
+`;
+
+export const UPDATE_REPORT_CARD = gql`
+  mutation UpdateReportCard($id: ID!, $input: UpdateReportCardInput!) {
+    updateReportCard(id: $id, input: $input) {
+      id
+      term
+      overallMarks
+      totalMarks
+      percentage
+      grade
+      rank
+    }
+  }
+`;
+
+export const PUBLISH_REPORT_CARD = gql`
+  mutation PublishReportCard($id: ID!) {
+    publishReportCard(id: $id) {
+      id
+      isPublished
+    }
+  }
+`;
+
