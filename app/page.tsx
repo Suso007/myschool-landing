@@ -52,6 +52,11 @@ export default function Header() {
     setMounted(true);
   }, []);
 
+
+  const bookCall = () => {
+    window.location.href = "https://my-school-frontend.vercel.app/";
+  }
+
   return (
     <div className="relative w-full">
       <Navbar>
@@ -61,8 +66,13 @@ export default function Header() {
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
             {mounted && <NavThemeToogler onClick={toggleTheme} theme={theme || 'light'} />}
-            <NavbarButton variant="secondary">Login</NavbarButton>
-            <NavbarButton variant="primary">Book a call</NavbarButton>
+            <NavbarButton
+              onClick={() => window.location.href = "https://my-school-frontend.vercel.app/"}
+              variant="primary">Login</NavbarButton>
+            <NavbarButton
+              hidden
+              onClick={() => bookCall()}
+              variant="primary">Book a call</NavbarButton>
           </div>
         </NavBody>
 
