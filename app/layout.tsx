@@ -14,8 +14,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "School Management System",
-  description: "Enterprise school management application",
+  title: "School Solutions by NextOrg",
+  description: "NextOrg provides school solutions for schools",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
