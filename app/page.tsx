@@ -1,11 +1,10 @@
 "use client";
 
-import ErpFeaturesGrid from "@/components/erp-features-grid";
-import AttendanceManagement from "@/components/attendance-management";
-import WhyChooseSection from "@/components/why-choose-section";
-import MobileAppsShowcase from "@/components/mobile-apps-showcase";
-import EnterpriseLMSSection from "@/components/enterprise-lms-section";
-import { HeroHighlightDemo } from "@/components/hero";
+import ErpFeaturesGrid from "@/app/(sections)/erp-features-grid";
+import AttendanceManagement from "@/app/(sections)/attendance-management";
+import WhyChooseSection from "@/app/(sections)/why-choose-section";
+import MobileAppsShowcase from "@/app/(sections)/mobile-apps-showcase";
+import { HeroHighlightDemo } from "@/app/(sections)/hero";
 import { LazySection } from "@/components/lazy-section";
 import {
   Navbar,
@@ -19,12 +18,12 @@ import {
   MobileNavMenu,
   NavThemeToogler
 } from "@/components/ui/resizable-navbar";
-import { AnimatedTestimonialsDemo } from "@/components/testimonials";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
-import FeaturesSectionDemo from "@/components/features-section-demo-3";
-import FeaturesSectionDemo2 from "@/components/features-section-demo-2";
 import { Footer } from "@/components/layout/footer";
+import FeaturesSection from "./(sections)/features";
+import SectionDivider from "./(sections)/divider";
+import ContactSection from "./(sections)/contact";
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
@@ -35,8 +34,8 @@ export default function Header() {
       link: "#features",
     },
     {
-      name: "Pricing",
-      link: "#pricing",
+      name: "Solutions",
+      link: "#solutions",
     },
     {
       name: "Contact",
@@ -54,11 +53,11 @@ export default function Header() {
 
 
   const bookCall = () => {
-    window.location.href = "https://my-school-frontend.vercel.app/";
+    window.location.href = "https://school.nextorg.in/";
   }
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full" style={{ scrollBehavior: 'smooth' }}>
       <Navbar>
         {/* Desktop Navigation */}
         <NavBody>
@@ -131,11 +130,21 @@ const Content = () => {
   return (
     <div>
       <HeroHighlightDemo />
-      <LazySection>
-        <FeaturesSectionDemo />
-      </LazySection>
+      <div id="features">
+        <LazySection>
+          <FeaturesSection />
+        </LazySection>
+      </div>
       <LazySection>
         <ErpFeaturesGrid />
+      </LazySection>
+      <div id="solutions">
+        <LazySection>
+          <MobileAppsShowcase />
+        </LazySection>
+      </div>
+      <LazySection>
+        <SectionDivider />
       </LazySection>
       <LazySection>
         <AttendanceManagement />
@@ -143,14 +152,13 @@ const Content = () => {
       <LazySection>
         <WhyChooseSection />
       </LazySection>
+      <div id="contact">
+        <LazySection>
+          <ContactSection />
+        </LazySection>
+      </div>
       <LazySection>
-        <MobileAppsShowcase />
-      </LazySection>
-      <LazySection>
-        <EnterpriseLMSSection />
-      </LazySection>
-      <LazySection>
-        <AnimatedTestimonialsDemo />
+        <SectionDivider />
       </LazySection>
       <LazySection>
         <Footer

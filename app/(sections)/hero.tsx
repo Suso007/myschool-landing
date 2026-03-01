@@ -1,8 +1,8 @@
 "use client";
 import { motion } from "motion/react";
-import { HeroHighlight, Highlight } from "./ui/hero-highlight";
+import { HeroHighlight, Highlight } from "../../components/ui/hero-highlight";
 import { ArrowRight, Play } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../../components/ui/button";
 
 export function HeroHighlightDemo() {
     return (
@@ -23,9 +23,9 @@ export function HeroHighlightDemo() {
                     }}
                     className="text-2xl md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto "
                 >
-                    Empower Your Institution Growth With Our{" "}
+                    Empower Institution Growth With Our{" "}
                     <Highlight className="text-black dark:text-white">
-                        Next-Gen School ERP
+                        Next Org School Solutions
                     </Highlight>
                 </motion.h1>
                 <motion.p
@@ -34,7 +34,7 @@ export function HeroHighlightDemo() {
                     transition={{ duration: 0.5, delay: 0.2, ease: [0.4, 0.0, 0.2, 1] }}
                     className="text-base md:text-lg lg:text-xl text-neutral-600 dark:text-neutral-300 max-w-3xl text-center mx-auto mt-8"
                 >
-                    Streamline admissions, academics, fees, HR, transport, and parent communication with our cloud-based school management software trusted by institutions across India.
+                    Simplify school operations and enhance parent engagement with a comprehensive cloud-based management system covering admissions, academics, fees, HR, transport, and communication — tailored for schools across India.
                 </motion.p>
                 {/* CTA Buttons */}
                 <motion.div
