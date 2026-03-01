@@ -125,3 +125,32 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ─── Circular theme-switch transition ─────────────────────────── */
+
+/* Opt every element into the transition so the snapshot is full-page */
+::view-transition-group(*) {
+  animation-duration: 0s;
+}
+
+/* The NEW theme expands as a circle from the click origin */
+::view-transition-new(root) {
+  animation: vt-circle-in 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 50%));
+}
+
+/* The OLD theme stays put underneath while the new one expands */
+::view-transition-old(root) {
+  animation: none;
+  z-index: -1;
+}
+
+@keyframes vt-circle-in {
+  from {
+    clip-path: circle(0px at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+
+  to {
+    clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+}

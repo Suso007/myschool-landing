@@ -7,6 +7,7 @@ import {
     Blocks,
     Fingerprint,
     ArrowRight,
+    IndianRupee,
 } from "lucide-react";
 
 export default function FeaturesBento() {
@@ -138,7 +139,7 @@ export default function FeaturesBento() {
                                     <div className="absolute inset-0 bg-background border border-border rounded-2xl shadow-sm rotate-[5deg] translate-y-4 opacity-70 group-hover:rotate-[10deg] group-hover:translate-x-2 transition-all duration-500 ease-out" />
                                     {/* Front Plate */}
                                     <div className="absolute inset-0 bg-background border border-primary/20 rounded-2xl shadow-xl flex items-center justify-center -rotate-[5deg] group-hover:rotate-0 group-hover:-translate-y-2 transition-all duration-500 ease-out z-10 backdrop-blur-sm">
-                                        <Layers className="w-12 h-12 text-foreground" />
+                                        <IndianRupee className="w-12 h-12 text-foreground" />
                                     </div>
                                 </div>
                             </div>

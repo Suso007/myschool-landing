@@ -296,7 +296,7 @@ export const NavThemeToogler = (
     onClick,
     theme,
   }: {
-    onClick: () => void;
+    onClick: (e: React.MouseEvent) => void;
     theme: string;
   },
 ) => {

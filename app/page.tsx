@@ -44,7 +44,30 @@ export default function Header() {
   ];
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const toggleTheme = () => { setTheme(theme === 'dark' ? 'light' : 'dark'); };
+
+  const toggleTheme = (e: React.MouseEvent) => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+
+    // Fallback for browsers without View Transitions API
+    if (!document.startViewTransition) {
+      setTheme(nextTheme);
+      return;
+    }
+
+    const x = e.clientX;
+    const y = e.clientY;
+    const right = window.innerWidth - x;
+    const bottom = window.innerHeight - y;
+    const radius = Math.hypot(Math.max(x, right), Math.max(y, bottom));
+
+    document.documentElement.style.setProperty('--vt-x', `${x}px`);
+    document.documentElement.style.setProperty('--vt-y', `${y}px`);
+    document.documentElement.style.setProperty('--vt-r', `${radius}px`);
+
+    document.startViewTransition(() => {
+      setTheme(nextTheme);
+    });
+  };
 
   // Prevent hydration errors by only rendering theme toggler after mount
   useEffect(() => {
