@@ -89,7 +89,7 @@ export default function Header() {
           <div className="flex items-center gap-4">
             {mounted && <NavThemeToogler onClick={toggleTheme} theme={theme || 'light'} />}
             <NavbarButton
-              onClick={() => window.location.href = "https://my-school-frontend.vercel.app/"}
+              onClick={() => window.location.href = "https://school.nextorg.in/"}
               variant="primary">Login</NavbarButton>
             <NavbarButton
               hidden
@@ -124,18 +124,11 @@ export default function Header() {
             ))}
             <div className="flex w-full flex-col gap-4">
               <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={() => window.location.href = "https://school.nextorg.in/"}
                 variant="primary"
                 className="w-full"
               >
                 Login
-              </NavbarButton>
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-              >
-                Book a call
               </NavbarButton>
             </div>
           </MobileNavMenu>
@@ -185,8 +178,8 @@ const Content = () => {
       </LazySection>
       <LazySection>
         <Footer
-          builtBy="Inloom"
-          builtByLink="https://myschool.in"
+          builtBy="Nextorg Solutions"
+          builtByLink="https://inloom.in"
           githubLink="https://github.com/myschool"
           twitterLink="https://twitter.com/myschool"
           linkedinLink="https://linkedin.com/myschool"

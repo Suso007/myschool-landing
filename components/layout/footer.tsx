@@ -81,18 +81,18 @@ export function Footer(props: {
                 <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
                   <Mail className="w-4 h-4 text-blue-600" />
                   <a href="mailto:info@myschool.in" className="hover:text-blue-600 transition-colors">
-                    info@myschool.in
+                    info@nextorg.in
                   </a>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
                   <Phone className="w-4 h-4 text-blue-600" />
                   <a href="tel:+911234567890" className="hover:text-blue-600 transition-colors">
-                    +91 123 456 7890
+                    +91 7063139083
                   </a>
                 </div>
                 <div className="flex items-start gap-2 text-sm text-neutral-600 dark:text-neutral-400">
                   <MapPin className="w-4 h-4 text-blue-600 mt-0.5" />
-                  <span>Mumbai, Maharashtra, India</span>
+                  <span>Katwa, Burdwan, West Bengal, India</span>
                 </div>
               </div>
             </motion.div>
@@ -201,7 +201,7 @@ export function Footer(props: {
                 Get the latest updates, tips, and exclusive offers
               </p>
             </div>
-            <div className="flex gap-2 w-full md:w-auto">
+            <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
               <input
                 type="email"
                 placeholder="Enter your email"

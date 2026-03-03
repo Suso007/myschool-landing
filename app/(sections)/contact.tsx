@@ -39,11 +39,11 @@ export default function ContactSection() {
 
                         {/* Contact info row floats on top of the globe's upper portion */}
                         <div className="absolute top-6 left-0 right-0 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground px-4">
-                            <span className="bg-background/60 backdrop-blur-sm px-2 py-0.5 rounded border border-border/50">contact@yoursaas.ai</span>
+                            <span className="bg-background/60 backdrop-blur-sm px-2 py-0.5 rounded border border-border/50">info@nextorg.in</span>
                             <div className="w-1 h-1 rounded-sm bg-border" />
-                            <span className="bg-background/60 backdrop-blur-sm px-2 py-0.5 rounded border border-border/50">+1 (800) 123 XX21</span>
+                            <span className="bg-background/60 backdrop-blur-sm px-2 py-0.5 rounded border border-border/50">+91 7063139083</span>
                             <div className="w-1 h-1 rounded-sm bg-border" />
-                            <span className="bg-background/60 backdrop-blur-sm px-2 py-0.5 rounded border border-border/50">support@yoursaas.ai</span>
+                            <span className="bg-background/60 backdrop-blur-sm px-2 py-0.5 rounded border border-border/50">support@nextorg.in</span>
                         </div>
                     </div>
                 </motion.div>
@@ -68,7 +68,7 @@ export default function ContactSection() {
                             <input
                                 type="text"
                                 id="fullName"
-                                placeholder="Manu Arora"
+                                placeholder="Your Name"
                                 className="w-full bg-background border border-input rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-colors"
                             />
                         </div>
@@ -81,7 +81,7 @@ export default function ContactSection() {
                             <input
                                 type="email"
                                 id="email"
-                                placeholder="support@aceternity.com"
+                                placeholder="support@nextorg.in"
                                 className="w-full bg-background border border-input rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-colors"
                             />
                         </div>
@@ -94,7 +94,7 @@ export default function ContactSection() {
                             <input
                                 type="text"
                                 id="company"
-                                placeholder="Aceternity Labs LLC"
+                                placeholder="Nextorg Solutions"
                                 className="w-full bg-background border border-input rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 focus:border-primary/50 transition-colors"
                             />
                         </div>
