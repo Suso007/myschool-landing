@@ -1,191 +1,84 @@
-"use client";
-
-import ErpFeaturesGrid from "@/app/(sections)/erp-features-grid";
-import AttendanceManagement from "@/app/(sections)/attendance-management";
-import WhyChooseSection from "@/app/(sections)/why-choose-section";
-import MobileAppsShowcase from "@/app/(sections)/mobile-apps-showcase";
-import { HeroHighlightDemo } from "@/app/(sections)/hero";
-import { LazySection } from "@/components/lazy-section";
+import Header from './components/Header';
+import HeroSection from './components/Hero';
+import FeaturesSection from './components/Features';
 import {
-  Navbar,
-  NavBody,
-  NavItems,
-  MobileNav,
-  NavbarLogo,
-  NavbarButton,
-  MobileNavHeader,
-  MobileNavToggle,
-  MobileNavMenu,
-  NavThemeToogler
-} from "@/components/ui/resizable-navbar";
-import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
-import { Footer } from "@/components/layout/footer";
-import FeaturesSection from "./(sections)/features";
-import SectionDivider from "./(sections)/divider";
-import ContactSection from "./(sections)/contact";
+  Backpack,
+  Pencil,
+  BookOpen,
+  Eraser,
+  Ruler,
+  Compass,
+  Calculator,
+  Scissors,
+  Coffee // Using coffee as a stand-in for a water bottle/flask!
+} from 'lucide-react';
+import MobileAppsShowcase from './components/Apps';
+import AttendanceManagement from './components/Attendance';
+import WhyChooseSection from './components/WhyUs';
+import ContactSection from './components/Contact';
+import { Footer } from './components/Footer';
 
-export default function Header() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const navItems = [
-    {
-      name: "Features",
-      link: "#features",
-    },
-    {
-      name: "Solutions",
-      link: "#solutions",
-    },
-    {
-      name: "Contact",
-      link: "#contact",
-    },
-  ];
-
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  const toggleTheme = (e: React.MouseEvent) => {
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
-
-    // Fallback for browsers without View Transitions API
-    if (!document.startViewTransition) {
-      setTheme(nextTheme);
-      return;
-    }
-
-    const x = e.clientX;
-    const y = e.clientY;
-    const right = window.innerWidth - x;
-    const bottom = window.innerHeight - y;
-    const radius = Math.hypot(Math.max(x, right), Math.max(y, bottom));
-
-    document.documentElement.style.setProperty('--vt-x', `${x}px`);
-    document.documentElement.style.setProperty('--vt-y', `${y}px`);
-    document.documentElement.style.setProperty('--vt-r', `${radius}px`);
-
-    document.startViewTransition(() => {
-      setTheme(nextTheme);
-    });
-  };
-
-  // Prevent hydration errors by only rendering theme toggler after mount
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-
-  const bookCall = () => {
-    window.location.href = "https://school.nextorg.in/";
-  }
-
+export default function Home() {
   return (
-    <div className="relative w-full" style={{ scrollBehavior: 'smooth' }}>
-      <Navbar>
-        {/* Desktop Navigation */}
-        <NavBody>
-          <NavbarLogo />
-          <NavItems items={navItems} />
-          <div className="flex items-center gap-4">
-            {mounted && <NavThemeToogler onClick={toggleTheme} theme={theme || 'light'} />}
-            <NavbarButton
-              onClick={() => window.location.href = "https://school.nextorg.in/"}
-              variant="primary">Login</NavbarButton>
-            <NavbarButton
-              hidden
-              onClick={() => bookCall()}
-              variant="primary">Book a call</NavbarButton>
-          </div>
-        </NavBody>
+    <main className="flex min-h-screen flex-col" style={{ backgroundColor: '#f9faf8' }}>
 
-        {/* Mobile Navigation */}
-        <MobileNav>
-          <MobileNavHeader>
-            <NavbarLogo />
-            <MobileNavToggle
-              isOpen={isMobileMenuOpen}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            />
-          </MobileNavHeader>
+      {/* Global Notebook Paper Background & Desk Elements */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
+        style={{
+          // Combines the edge shadow, paper texture, and ruled lines
+          backgroundImage: `
+            linear-gradient(90deg, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0) 4%, rgba(0,0,0,0) 96%, rgba(0,0,0,0.03) 100%),
+            url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E"),
+            repeating-linear-gradient(transparent, transparent 39px, rgba(203, 213, 225, 0.4) 39px, rgba(203, 213, 225, 0.4) 40px)
+          `,
+          backgroundPositionY: '0px, 0px, 10px'
+        }}
+      >
+        {/* --- SCATTERED SCHOOL SUPPLIES (Faded out to act as background art) --- */}
 
-          <MobileNavMenu
-            isOpen={isMobileMenuOpen}
-            onClose={() => setIsMobileMenuOpen(false)}
-          >
-            {navItems.map((item, idx) => (
-              <a
-                key={`mobile-link-${idx}`}
-                href={item.link}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="relative text-neutral-600 dark:text-neutral-300"
-              >
-                <span className="block">{item.name}</span>
-              </a>
-            ))}
-            <div className="flex w-full flex-col gap-4">
-              <NavbarButton
-                onClick={() => window.location.href = "https://school.nextorg.in/"}
-                variant="primary"
-                className="w-full"
-              >
-                Login
-              </NavbarButton>
-            </div>
-          </MobileNavMenu>
-        </MobileNav>
-      </Navbar>
-      <Content />
+        {/* Top Left Area */}
+        <Pencil className="absolute top-[10%] left-[5%] w-16 h-16 text-slate-400 opacity-20 -rotate-45 stroke-[1]" />
+        <Scissors className="absolute top-[25%] left-[2%] w-12 h-12 text-slate-400 opacity-15 rotate-[15deg] stroke-[1]" />
 
-      {/* Navbar */}
-    </div>
+        {/* Top Right Area */}
+        <Backpack className="absolute top-[15%] right-[5%] w-24 h-24 text-slate-400 opacity-15 rotate-12 stroke-[1]" />
+        <Ruler className="absolute top-[5%] right-[15%] w-14 h-14 text-slate-400 opacity-20 rotate-[105deg] stroke-[1]" />
+
+        {/* Middle Left Area */}
+        <BookOpen className="absolute top-[50%] left-[3%] w-20 h-20 text-slate-400 opacity-15 -rotate-12 stroke-[1]" />
+
+        {/* Middle Right Area */}
+        <Compass className="absolute top-[60%] right-[4%] w-16 h-16 text-slate-400 opacity-20 rotate-45 stroke-[1]" />
+
+        {/* Bottom Left Area */}
+        <Eraser className="absolute bottom-[15%] left-[8%] w-12 h-12 text-slate-400 opacity-20 -rotate-[20deg] stroke-[1]" />
+        <Coffee className="absolute bottom-[5%] left-[3%] w-16 h-16 text-slate-400 opacity-15 rotate-6 stroke-[1]" />
+
+        {/* Bottom Right Area */}
+        <Calculator className="absolute bottom-[10%] right-[6%] w-20 h-20 text-slate-400 opacity-15 rotate-[-15deg] stroke-[1]" />
+
+        {/* Occasional hand-drawn doodles (using text for simplicity) */}
+        <span className="absolute top-[35%] right-[10%] text-slate-400 opacity-20 text-4xl font-mono rotate-12">∑</span>
+        <span className="absolute bottom-[30%] left-[12%] text-slate-400 opacity-20 text-5xl font-mono -rotate-12">π</span>
+        <span className="absolute top-[70%] left-[50%] text-slate-400 opacity-20 text-3xl font-mono rotate-45">E=mc²</span>
+        <span className="absolute bottom-[40%] right-[15%] text-slate-400 opacity-20 text-4xl font-mono rotate-[-30deg]">√x</span>
+      </div>
+
+      {/* The Smart Sticky Header */}
+      <Header />
+
+      {/* Page Content */}
+      <div className="relative z-10">
+        <HeroSection />
+        <FeaturesSection />
+        <MobileAppsShowcase />
+        <AttendanceManagement />
+        <WhyChooseSection />
+        <ContactSection />
+        <Footer />
+      </div>
+
+    </main>
   );
 }
-
-const Content = () => {
-
-  return (
-    <div>
-      <HeroHighlightDemo />
-      <div id="features">
-        <LazySection>
-          <FeaturesSection />
-        </LazySection>
-      </div>
-      <LazySection>
-        <ErpFeaturesGrid />
-      </LazySection>
-      <div id="solutions">
-        <LazySection>
-          <MobileAppsShowcase />
-        </LazySection>
-      </div>
-      <LazySection>
-        <SectionDivider />
-      </LazySection>
-      <LazySection>
-        <AttendanceManagement />
-      </LazySection>
-      <LazySection>
-        <WhyChooseSection />
-      </LazySection>
-      <div id="contact">
-        <LazySection>
-          <ContactSection />
-        </LazySection>
-      </div>
-      <LazySection>
-        <SectionDivider />
-      </LazySection>
-      <LazySection>
-        <Footer
-          builtBy="Nextorg Solutions"
-          builtByLink="https://inloom.in"
-          githubLink="https://github.com/myschool"
-          twitterLink="https://twitter.com/myschool"
-          linkedinLink="https://linkedin.com/myschool"
-        />
-      </LazySection>
-    </div>
-  );
-};
-

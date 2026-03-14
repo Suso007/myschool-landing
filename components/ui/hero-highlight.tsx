@@ -138,3 +138,113 @@ export const Highlight = ({
     </motion.span>
   );
 };
+
+export const HeroImageHighlight = ({
+  children,
+  className,
+  containerClassName,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  containerClassName?: string;
+}) => {
+  let mouseX = useMotionValue(0);
+  let mouseY = useMotionValue(0);
+
+  const dotPatterns = {
+    light: {
+      default: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='16' height='16' fill='none'%3E%3Ccircle fill='%23d4d4d4' id='pattern-circle' cx='10' cy='10' r='2.5'%3E%3C/circle%3E%3C/svg%3E")`,
+      hover: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='16' height='16' fill='none'%3E%3Ccircle fill='%236366f1' id='pattern-circle' cx='10' cy='10' r='2.5'%3E%3C/circle%3E%3C/svg%3E")`,
+    },
+    dark: {
+      default: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='16' height='16' fill='none'%3E%3Ccircle fill='%23404040' id='pattern-circle' cx='10' cy='10' r='2.5'%3E%3C/circle%3E%3C/svg%3E")`,
+      hover: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='16' height='16' fill='none'%3E%3Ccircle fill='%238183f4' id='pattern-circle' cx='10' cy='10' r='2.5'%3E%3C/circle%3E%3C/svg%3E")`,
+    },
+  };
+
+  function handleMouseMove({
+    currentTarget,
+    clientX,
+    clientY,
+  }: React.MouseEvent<HTMLDivElement>) {
+    if (!currentTarget) return;
+    let { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  return (
+    <div
+      className={cn(
+        "group relative flex h-screen w-full items-center justify-center -mt-16 overflow-hidden",
+        containerClassName,
+      )}
+      onMouseMove={handleMouseMove}
+    >
+      {/* classroom.jpg as full-bleed background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/classroom.jpg')" }}
+      />
+
+      {/* dark overlay so text stays readable */}
+      <div className="absolute inset-0 bg-black/25 dark:bg-black/25" />
+
+      {/* dot pattern — light mode */}
+      <div
+        className="pointer-events-none absolute inset-0 dark:hidden opacity-30"
+        style={{ backgroundImage: dotPatterns.light.default }}
+      />
+      {/* dot pattern — dark mode */}
+      <div
+        className="pointer-events-none absolute inset-0 hidden dark:block opacity-30"
+        style={{ backgroundImage: dotPatterns.dark.default }}
+      />
+
+      {/* hover reveal — light */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100 dark:hidden"
+        style={{
+          backgroundImage: dotPatterns.light.hover,
+          WebkitMaskImage: useMotionTemplate`
+            radial-gradient(
+              200px circle at ${mouseX}px ${mouseY}px,
+              black 0%,
+              transparent 100%
+            )
+          `,
+          maskImage: useMotionTemplate`
+            radial-gradient(
+              200px circle at ${mouseX}px ${mouseY}px,
+              black 0%,
+              transparent 100%
+            )
+          `,
+        }}
+      />
+      {/* hover reveal — dark */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 hidden opacity-0 transition duration-300 group-hover:opacity-100 dark:block"
+        style={{
+          backgroundImage: dotPatterns.dark.hover,
+          WebkitMaskImage: useMotionTemplate`
+            radial-gradient(
+              200px circle at ${mouseX}px ${mouseY}px,
+              black 0%,
+              transparent 100%
+            )
+          `,
+          maskImage: useMotionTemplate`
+            radial-gradient(
+              200px circle at ${mouseX}px ${mouseY}px,
+              black 0%,
+              transparent 100%
+            )
+          `,
+        }}
+      />
+
+      <div className={cn("relative z-20", className)}>{children}</div>
+    </div>
+  );
+};
