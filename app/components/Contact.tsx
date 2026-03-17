@@ -78,7 +78,7 @@ const sampleArcs = [
 
 export default function ContactSection() {
     return (
-        <section className="relative py-20 px-4 md:py-24 md:px-6 lg:px-12 flex items-center justify-center overflow-hidden font-sans text-slate-800">
+        <section id="contact" className="relative py-20 px-4 md:py-24 md:px-6 lg:px-12 flex items-center justify-center overflow-hidden font-sans text-slate-800">
 
             {/* --- Global Ruled Notebook Paper Background --- */}
             <div
