@@ -1,36 +1,88 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, ArrowRight, Monitor, Phone, Loader2 } from "lucide-react";
-import createGlobe from "cobe";
-import { Permanent_Marker, Montserrat } from "next/font/google";
+import axios from "axios";
+import {
+    Phone,
+    Paperclip,
+    Mail,
+    MapPin,
+    MessageCircle,
+    Send
+} from "lucide-react";
+import dynamic from "next/dynamic";
+import { Permanent_Marker, Kalam } from "next/font/google";
 
-// Load fonts to match the school theme
-const markerFont = Permanent_Marker({ weight: '400', subsets: ['latin'] });
-const sansFont = Montserrat({ weight: ['400', '700', '800'], subsets: ['latin'] });
+const markerFont = Permanent_Marker({ weight: "400", subsets: ["latin"] });
+const handwrittenFont = Kalam({ weight: ["400", "700"], subsets: ["latin"] });
+
+// Dynamically import the Aceternity UI World component
+const World = dynamic(() => import("@/components/ui/globe").then((m) => m.World), {
+    ssr: false,
+});
+
+// --- GLOBE CONFIGURATION ---
+const globeConfig = {
+    pointSize: 4,
+    globeColor: "#1e293b", // Deep slate blue to match text
+    showAtmosphere: true,
+    atmosphereColor: "#FFFFFF",
+    atmosphereAltitude: 0.1,
+    emissive: "#0f172a",
+    emissiveIntensity: 0.1,
+    shininess: 0.9,
+    polygonColor: "rgba(255,255,255,0.7)",
+    ambientLight: "#38bdf8",
+    directionalLeftLight: "#ffffff",
+    directionalTopLight: "#ffffff",
+    pointLight: "#ffffff",
+    arcTime: 1500,
+    arcLength: 0.9,
+    rings: 2,
+    maxRings: 4,
+    initialPosition: { lat: 17.77, lng: 82.97 }, // Centered between Kolkata and Bengaluru
+    autoRotate: true,
+    autoRotateSpeed: 0.5,
+
+    // FIX: Added markers back so the solid center pins are visible!
+    markerColor: [1, 1, 1], // White center dot
+    markers: [
+        { location: [22.5726, 88.3639], size: 0.07 }, // Kolkata Pin
+        { location: [12.9716, 77.5946], size: 0.07 }  // Bengaluru Pin
+    ]
+};
+
+// FIX: Aceternity generates the blinking rings based on the 'start' location of the arcs.
+// This creates a Pink ring at Kolkata and a Green ring at Bengaluru.
+const sampleArcs = [
+    {
+        order: 1,
+        startLat: 22.5726, // Kolkata
+        startLng: 88.3639,
+        endLat: 12.9716,
+        endLng: 77.5946,
+        arcAlt: 0.15,
+        color: "#d81b60"   // Pink/Magenta Blinking Ring
+    },
+    {
+        order: 1,
+        startLat: 12.9716, // Bengaluru
+        startLng: 77.5946,
+        endLat: 22.5726,
+        endLng: 88.3639,
+        arcAlt: 0.25,
+        color: "#10b981"   // Green Blinking Ring
+    }
+];
 
 export default function ContactSection() {
-    // Form state handling for production readiness
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [formSubmitted, setFormSubmitted] = useState(false);
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        // Simulate an API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setIsSubmitting(false);
-        setFormSubmitted(true);
-        console.log("Form submitted");
-    };
-
     return (
-        <section className={`${sansFont.className} relative py-20 px-4 md:py-24 md:px-6 lg:px-12 flex items-center justify-center overflow-hidden`}>
+        <section className="relative py-20 px-4 md:py-24 md:px-6 lg:px-12 flex items-center justify-center overflow-hidden font-sans text-slate-800">
 
             {/* --- Global Ruled Notebook Paper Background --- */}
             <div
-                className="fixed inset-0 pointer-events-none z-0"
+                className="absolute inset-0 pointer-events-none z-0"
                 style={{
                     backgroundImage: `
                         linear-gradient(90deg, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0) 4%, rgba(0,0,0,0) 96%, rgba(0,0,0,0.03) 100%),
@@ -41,169 +93,129 @@ export default function ContactSection() {
                 }}
             />
 
-            {/* --- Main Content Grid --- */}
-            <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16 lg:gap-20 items-start relative z-10 pt-16 md:pt-24 pb-12">
+            <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center relative z-10 pt-10">
 
-                {/* --- Left Column: text on top, globe at bottom --- */}
+                {/* --- Left Column: Directory Cards --- */}
                 <motion.div
-                    initial={{ opacity: 0, x: -40, rotate: -3 }}
-                    whileInView={{ opacity: 1, x: 0, rotate: -1.5 }}
+                    initial={{ opacity: 0, x: -40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    className="flex-1 w-full lg:col-span-5 relative"
+                    className="flex flex-col relative"
                 >
-                    {/* Notebook Paper Annotation Card */}
-                    <div className="relative bg-white p-8 md:p-10 shadow-lg border-2 border-slate-800 custom-wiggle-border">
-                        {/* Clear Tape effect */}
-                        <div className="absolute top-[-10px] left-1/2 -translate-x-1/2 w-12 h-6 bg-white/40 border border-white/60 shadow-sm rotate-[-4deg]" />
-
-                        {/* Mail Icon in paper box */}
-                        <div className="w-14 h-14 rounded-full bg-blue-50 border-2 border-slate-800 flex items-center justify-center mb-8 mx-auto custom-wiggle-border">
-                            <Mail className="w-6 h-6 text-blue-800 stroke-[2]" />
-                        </div>
-
-                        <h2 className={`${markerFont.className} text-4xl sm:text-5xl font-bold tracking-tight mb-6 text-slate-900 text-center leading-tight`}>
-                            Contact us
+                    {/* Sketched "Highlight" Background behind text */}
+                    <div className="relative inline-block mb-4 self-start">
+                        <div className="absolute inset-0 bg-[#a7f3d0] transform rotate-2 skew-x-6 scale-110 z-0 opacity-70"></div>
+                        <h2 className={`${markerFont.className} text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 relative z-10 px-2 py-1`}>
+                            GET IN TOUCH
                         </h2>
+                    </div>
 
-                        <p className={`${sansFont.className} text-slate-700 text-lg sm:text-xl font-bold leading-relaxed mb-10 text-center`}>
-                            Let us know how we can help you simplify your school operations.
-                        </p>
+                    <p className={`${handwrittenFont.className} text-xl md:text-2xl text-slate-700 max-w-lg mb-12 font-bold leading-relaxed`}>
+                        Have questions? Need a demo? Let us know how we can help simplify your school operations.
+                    </p>
 
-                        {/* Globe + contact info overlay */}
-                        <div className="relative flex justify-center aspect-square">
-                            {/* Globe - positioned below */}
-                            <Globe className="absolute top-1/2 -translate-y-1/2 z-0" />
+                    {/* Stacked Contact Flashcards */}
+                    <div className="space-y-6 z-20">
 
-                            {/* Contact info row floats on top of the globe's upper portion */}
-                            <div className="absolute top-10 left-0 right-0 flex flex-wrap items-center justify-center gap-3 md:gap-4 text-sm px-4 transform translate-y-[-140%] md:translate-y-[-160%] lg:translate-y-[-140%]">
-                                <span className="bg-white px-3 py-1.5 rounded-sm border-2 border-slate-800 font-bold text-slate-800 custom-wiggle-border whitespace-nowrap">
-                                    <Phone className="w-3.5 h-3.5 inline mr-1 text-[#d81b60]" />
-                                    +91 7063139083
-                                </span>
-                                <span className="bg-white px-3 py-1.5 rounded-sm border-2 border-slate-800 font-bold text-slate-800 custom-wiggle-border whitespace-nowrap">
-                                    <Mail className="w-3.5 h-3.5 inline mr-1 text-[#d81b60]" />
-                                    support@nextorg.in
-                                </span>
+                        {/* Phone Card */}
+                        <motion.a
+                            href="tel:+917063139083"
+                            whileHover={{ scale: 1.03, rotate: -1 }}
+                            className="group relative flex items-center gap-6 p-6 bg-white border-2 border-slate-800 shadow-md custom-wiggle-border"
+                        >
+                            <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-red-400 opacity-50" />
+                            <div className="w-14 h-14 shrink-0 rounded-full bg-green-100 border-2 border-slate-800 flex items-center justify-center custom-wiggle-border group-hover:bg-green-200 transition-colors ml-4 z-10">
+                                <Phone className="w-6 h-6 text-green-700 stroke-[2]" />
                             </div>
-                        </div>
+                            <div className="z-10">
+                                <p className={`${markerFont.className} text-sm text-slate-500 uppercase tracking-widest mb-1`}>Call Us Directly</p>
+                                <p className={`${handwrittenFont.className} text-2xl md:text-3xl text-slate-900 font-bold group-hover:text-[#d81b60] transition-colors`}>
+                                    +91 7063139083
+                                </p>
+                            </div>
+                        </motion.a>
+
+                        {/* Email Card */}
+                        <motion.a
+                            href="mailto:support@nextorg.in"
+                            whileHover={{ scale: 1.03, rotate: 1 }}
+                            className="group relative flex items-center gap-6 p-6 bg-[#fef08a] border-2 border-slate-800 shadow-md custom-wiggle-border"
+                        >
+                            <Paperclip className="absolute -top-4 -right-2 w-8 h-8 text-slate-600 rotate-45 z-20" />
+                            <div className="w-14 h-14 shrink-0 rounded-full bg-blue-50 border-2 border-slate-800 flex items-center justify-center custom-wiggle-border group-hover:bg-blue-100 transition-colors z-10">
+                                <Mail className="w-6 h-6 text-blue-700 stroke-[2]" />
+                            </div>
+                            <div className="z-10">
+                                <p className={`${markerFont.className} text-sm text-slate-600 uppercase tracking-widest mb-1`}>Drop an Email</p>
+                                <p className={`${handwrittenFont.className} text-2xl md:text-3xl text-slate-900 font-bold group-hover:text-blue-700 transition-colors`}>
+                                    support@nextorg.in
+                                </p>
+                            </div>
+                        </motion.a>
+
+                        {/* Location Card */}
+                        <motion.div
+                            whileHover={{ scale: 1.03, rotate: -1 }}
+                            className="group relative flex items-center gap-6 p-6 bg-[#f8fafc] border-2 border-slate-800 shadow-md custom-wiggle-border"
+                            style={{ backgroundImage: 'linear-gradient(#cbd5e1 1px, transparent 1px), linear-gradient(90deg, #cbd5e1 1px, transparent 1px)', backgroundSize: '20px 20px' }}
+                        >
+                            <div className="w-14 h-14 shrink-0 bg-white border-2 border-slate-800 flex items-center justify-center transform rotate-6 group-hover:bg-red-50 transition-colors z-10">
+                                <MapPin className="w-6 h-6 text-red-600 stroke-[2]" />
+                            </div>
+                            <div className="z-10 bg-white/80 px-4 py-2 rounded border border-slate-300 backdrop-blur-sm">
+                                <p className={`${markerFont.className} text-sm text-slate-500 uppercase tracking-widest mb-1`}>Headquarters</p>
+                                <p className={`${handwrittenFont.className} text-xl md:text-2xl text-slate-900 font-bold`}>
+                                    Katwa, Burdwan, West Bengal
+                                </p>
+                            </div>
+                        </motion.div>
+
+                    </div>
+
+                    {/* Quick WhatsApp CTA Button */}
+                    <div className="mt-10 z-20">
+                        <a href="https://wa.me/917063139083" target="_blank" rel="noreferrer">
+                            <button className={`${markerFont.className} group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#d81b60] text-white text-xl shadow-lg transition-transform hover:scale-105 hover:rotate-1 custom-wiggle-border w-full sm:w-auto`}>
+                                <MessageCircle className="w-6 h-6 stroke-[2.5]" />
+                                <span className="relative z-10">CHAT ON WHATSAPP</span>
+                            </button>
+                        </a>
                     </div>
                 </motion.div>
 
-                {/* --- Right Column: Blackboard Form Container --- */}
+                {/* --- Right Column: The Aceternity Globe --- */}
                 <motion.div
-                    initial={{ opacity: 0, x: 40, rotate: 3 }}
-                    whileInView={{ opacity: 1, x: 0, rotate: 1.5 }}
-                    transition={{ duration: 0.6, type: "spring", bounce: 0.4, delay: 0.2 }}
+                    initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
+                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                    transition={{ duration: 0.8, type: "spring", bounce: 0.4, delay: 0.2 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    className="relative w-full lg:col-span-7"
+                    className="relative w-full flex justify-center items-center h-[400px] lg:h-[600px] pointer-events-none"
                 >
-                    {/* Sketched Blackboard with wooden frame effect */}
-                    <div className="relative w-full rounded-xl bg-[#1A1D21] border-[12px] border-[#8b5a2b] shadow-2xl overflow-hidden p-8 lg:p-10 custom-wiggle-border">
+                    {/* Floating "We are here" Sticky Note */}
+                    <motion.div
+                        animate={{ y: [0, -10, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute top-[5%] right-[5%] lg:right-[15%] z-20 bg-[#fbcfe8] border-2 border-slate-800 p-4 shadow-md rotate-12 custom-wiggle-border pointer-events-auto"
+                    >
+                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-red-600 border border-slate-900 shadow-sm" />
+                        <p className={`${handwrittenFont.className} text-xl text-slate-900 font-bold whitespace-nowrap`}>
+                            We are here!
+                        </p>
+                        {/* Hand-drawn arrow pointing to globe */}
+                        <svg className="absolute -bottom-10 -left-6 w-16 h-16 text-slate-800 rotate-[-30deg]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                        </svg>
+                    </motion.div>
 
-                        {/* Chalk Grid Background Pattern */}
-                        <div className="absolute top-0 right-0 w-full h-full bg-[linear-gradient(to_right,rgba(255,255,255,0.07)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.07)_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] [mask-image:radial-gradient(circle_at_top_right,black,transparent_70%)] opacity-60 pointer-events-none" />
+                    {/* Paper Airplane Doodle */}
+                    <Send className="absolute bottom-[10%] left-[5%] w-12 h-12 text-slate-400 opacity-50 rotate-45 stroke-[1.5] z-0" />
 
-                        {/* Blackboard Label (stamped red chalk effect) */}
-                        <div className="inline-block relative mb-8">
-                            <span className={`${markerFont.className} text-[#d81b60] text-xl tracking-widest uppercase flex items-center gap-2`}>
-                                <Monitor className="w-6 h-6 stroke-[2]" />
-                                Admin Dashboard
-                            </span>
-                            <svg className="absolute w-full h-3 -bottom-2 left-0 text-[#d81b60]" viewBox="0 0 100 10" preserveAspectRatio="none">
-                                <path d="M0 5 Q 50 10 100 2" stroke="currentColor" strokeWidth="2" fill="none" />
-                            </svg>
+                    {/* The Interactive Globe Wrapper */}
+                    <div className="absolute inset-0 w-full h-full z-10 flex items-center justify-center">
+                        <div className="w-[120%] h-[120%] md:w-full md:h-full relative pointer-events-auto">
+                            <World data={sampleArcs} globeConfig={globeConfig} />
                         </div>
-
-                        {/* chalky text effect style utility */}
-                        <style>{`
-                            .chalk-text {
-                                color: rgba(255, 255, 255, 0.85);
-                                text-shadow: 0 0 1px rgba(255, 255, 255, 0.3), 0 0 2px rgba(255, 255, 255, 0.1);
-                            }
-                            .chalk-label {
-                                color: rgba(255, 255, 255, 0.95);
-                                font-weight: 700;
-                            }
-                            .custom-wiggle-border {
-                                border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-                            }
-                        `}</style>
-
-                        {formSubmitted ? (
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                className={`${sansFont.className} text-center flex flex-col items-center justify-center gap-6 chalk-text min-h-[400px]`}>
-                                <Mail className="w-16 h-16 text-[#d81b60] opacity-80" strokeWidth={1} />
-                                <h3 className="text-3xl font-extrabold tracking-tight">Message Sketched!</h3>
-                                <p className="max-w-sm">We've got your message, scratched onto our board. Our team will get back to you shortly.</p>
-                            </motion.div>
-                        ) : (
-                            <form className="relative z-10 flex flex-col gap-6" onSubmit={handleSubmit}>
-
-                                {/* Full Name */}
-                                <div className="flex flex-col gap-2">
-                                    <label htmlFor="fullName" className="text-sm md:text-base chalk-label uppercase tracking-widest">
-                                        Full name
-                                    </label>
-                                    <input
-                                        type="text" id="fullName" placeholder="Your Name" required
-                                        className="w-full bg-[#1A1D21] border-2 border-slate-700 border-dashed chalk-text text-base px-4 py-3 focus:outline-none focus:border-white focus:border-solid transition-colors placeholder:text-slate-600"
-                                    />
-                                </div>
-
-                                {/* Email Address */}
-                                <div className="flex flex-col gap-2">
-                                    <label htmlFor="contact" className="text-sm md:text-base chalk-label uppercase tracking-widest">
-                                        Contact
-                                    </label>
-                                    <input
-                                        type="phone" id="contact" placeholder="+91 7063139083" required
-                                        className="w-full bg-[#1A1D21] border-2 border-slate-700 border-dashed chalk-text text-base px-4 py-3 focus:outline-none focus:border-white focus:border-solid transition-colors placeholder:text-slate-600"
-                                    />
-                                </div>
-
-                                {/* Company */}
-                                <div className="flex flex-col gap-2">
-                                    <label htmlFor="company" className="text-sm md:text-base chalk-label uppercase tracking-widest">
-                                        Company / School Name
-                                    </label>
-                                    <input
-                                        type="text" id="company" placeholder="Nextorg Solutions" required
-                                        className="w-full bg-[#1A1D21] border-2 border-slate-700 border-dashed chalk-text text-base px-4 py-3 focus:outline-none focus:border-white focus:border-solid transition-colors placeholder:text-slate-600"
-                                    />
-                                </div>
-
-                                {/* Message */}
-                                <div className="flex flex-col gap-2">
-                                    <label htmlFor="message" className="text-sm md:text-base chalk-label uppercase tracking-widest">
-                                        Message
-                                    </label>
-                                    <textarea
-                                        id="message" placeholder="Sketch your message here" rows={4} required
-                                        className="w-full bg-[#1A1D21] border-2 border-slate-700 border-dashed chalk-text text-base px-4 py-3 focus:outline-none focus:border-white focus:border-solid transition-colors resize-none placeholder:text-slate-600"
-                                    />
-                                </div>
-
-                                {/* Submit Button ( Magenta Classmate popup) */}
-                                <div className="pt-2">
-                                    <button
-                                        type="submit"
-                                        disabled={isSubmitting}
-                                        className={`${markerFont.className} group relative inline-flex items-center justify-center gap-2 px-10 py-4 bg-[#d81b60] text-white text-xl md:text-2xl shadow-lg transition-transform hover:scale-105 hover:-rotate-2 custom-wiggle-border w-full sm:w-auto disabled:opacity-50`}
-                                    >
-                                        <span className="relative z-10 flex items-center gap-2">
-                                            {isSubmitting ? (
-                                                <Loader2 className="w-6 h-6 animate-spin text-white" />
-                                            ) : (
-                                                <>Sketch Message <ArrowRight className="w-6 h-6 relative z-10 group-hover:translate-x-2 transition-transform" strokeWidth={3} /></>
-                                            )}
-                                        </span>
-                                    </button>
-                                </div>
-                            </form>
-                        )}
                     </div>
                 </motion.div>
 
@@ -211,58 +223,3 @@ export default function ContactSection() {
         </section>
     );
 }
-
-// COBE Globe Component (unmodified from original)
-export const Globe = ({ className }: { className?: string }) => {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-
-    useEffect(() => {
-        let phi = 0;
-
-        if (!canvasRef.current) return;
-
-        // Optimized size for mobile-first aspects
-        const size = 350;
-        const dpr = Math.min(window.devicePixelRatio, 2);
-
-        const globe = createGlobe(canvasRef.current, {
-            devicePixelRatio: dpr,
-            width: size * dpr,
-            height: size * dpr,
-            phi: 0,
-            theta: 0.3,
-            dark: 1, // Keep it dark as requested, it contrasts well
-            diffuse: 1.2,
-            mapSamples: 16000,
-            mapBrightness: 6,
-            baseColor: [0.3, 0.3, 0.3],
-            markerColor: [0.85, 0.1, 0.4], // Changed to match magenta primary
-            glowColor: [1, 1, 1],
-            markers: [
-                // India — Location of Nextorg
-                { location: [22.5726, 88.3639], size: 0.1 }, // Example marker for India
-                { location: [12.9716, 77.5946], size: 0.08 },
-            ],
-            onRender: (state) => {
-                state.phi = phi;
-                phi += 0.005; // Slightly slower rotation for better readability
-            },
-        });
-
-        return () => {
-            globe.destroy();
-        };
-    }, []);
-
-    return (
-        <div className={`relative ${className} w-full h-full max-w-[320px] max-h-[320px]`}>
-            {/* The canvas itself, sized to match aspects */}
-            <canvas
-                ref={canvasRef}
-                style={{ width: '100%', height: '100%', aspectRatio: '1' }}
-            />
-            {/* Soft background glow matching primary color */}
-            <div className="absolute inset-0 bg-primary/20 rounded-full blur-[60px] opacity-60 z-[-1]" />
-        </div>
-    );
-};
