@@ -93,7 +93,7 @@ export default function WhyChooseSection() {
         name: "",
         phone: "",
         email: "",
-        requestCallback: false,
+        preferredTimeSlot: "",
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,12 +107,30 @@ export default function WhyChooseSection() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
+
         try {
-            await axios.post('/api/demo-request', formData);
-            setFormData({ name: "", phone: "", email: "", requestCallback: false });
+            // Map your React state to exactly match what the API route expects
+            const payload = {
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                preferredtimeslot: formData.preferredTimeSlot,
+            };
+
+            // Send the request to your Next.js API route
+            await axios.post('/api/demoSchedule', payload);
+
+            // On success: Clear the form and close the modal/dialog
+            setFormData({ name: "", phone: "", email: "", preferredTimeSlot: "" });
             setIsDialogOpen(false);
+
+            // Tip: You can trigger a success toast notification here
+
         } catch (error) {
             console.error("Error submitting form:", error);
+
+            // Tip: You can trigger an error toast notification here 
+            // alert("Something went wrong. Please try again.");
         } finally {
             setIsSubmitting(false);
         }
@@ -312,17 +330,15 @@ export default function WhyChooseSection() {
                                 />
                             </div>
 
-                            <div className="flex items-center space-x-3 pt-4 shrink-0">
-                                <div className="relative flex items-center justify-center shrink-0">
-                                    <input
-                                        type="checkbox" id="requestCallback" name="requestCallback" checked={formData.requestCallback} onChange={handleInputChange}
-                                        className="appearance-none w-6 h-6 border-2 border-slate-800 rounded-sm checked:bg-transparent transition-all cursor-pointer peer"
-                                    />
-                                    <Check className="absolute w-8 h-8 text-[#d81b60] stroke-[3] opacity-0 peer-checked:opacity-100 pointer-events-none -top-2 -right-1" />
-                                </div>
-                                <label htmlFor="requestCallback" className={`${handwrittenFont.className} text-lg md:text-xl text-slate-800 font-bold cursor-pointer leading-tight`}>
-                                    Yes, I want a callback ASAP!
+                            <div className="relative flex flex-col gap-1">
+                                <label htmlFor="preferredTimeSlot" className={`${handwrittenFont.className} text-lg md:text-xl text-slate-800 font-bold`}>
+                                    Preferred Time Slot
                                 </label>
+                                <input
+                                    type="text" id="preferredTimeSlot" name="preferredTimeSlot" value={formData.preferredTimeSlot} onChange={handleInputChange}
+                                    className={`${handwrittenFont.className} w-full text-xl text-blue-800 bg-transparent border-b-2 border-slate-400 border-dashed focus:border-slate-800 focus:border-solid focus:outline-none px-2 py-2 placeholder:text-slate-400`}
+                                    placeholder="10:00 AM - 11:00 AM"
+                                />
                             </div>
 
                             <div className="mt-auto pt-4 shrink-0">
