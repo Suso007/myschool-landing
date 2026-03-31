@@ -80,19 +80,6 @@ export default function ContactSection() {
     return (
         <section id="contact" className="relative py-20 px-4 md:py-24 md:px-6 lg:px-12 flex items-center justify-center overflow-hidden font-sans text-slate-800">
 
-            {/* --- Global Ruled Notebook Paper Background --- */}
-            <div
-                className="absolute inset-0 pointer-events-none z-0"
-                style={{
-                    backgroundImage: `
-                        linear-gradient(90deg, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0) 4%, rgba(0,0,0,0) 96%, rgba(0,0,0,0.03) 100%),
-                        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E"),
-                        repeating-linear-gradient(transparent, transparent 39px, rgba(203, 213, 225, 0.4) 39px, rgba(203, 213, 225, 0.4) 40px)
-                    `,
-                    backgroundPositionY: '10px'
-                }}
-            />
-
             <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center relative z-10 pt-10">
 
                 {/* --- Left Column: Directory Cards --- */}
