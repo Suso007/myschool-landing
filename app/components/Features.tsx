@@ -209,7 +209,7 @@ export default function FeaturesSection() {
                                         </p>
 
                                         {/* Optional Interactive Element (Just for the Onboard card) */}
-                                        {feature.interactive && (
+                                        {/* {feature.interactive && (
                                             <form onSubmit={(e) => { e.preventDefault(); }} className="mt-6 relative flex items-end group">
                                                 <input
                                                     type="text"
@@ -222,7 +222,7 @@ export default function FeaturesSection() {
                                                     <Search className="w-6 h-6 stroke-[2]" />
                                                 </button>
                                             </form>
-                                        )}
+                                        )} */}
                                     </div>
                                 )}
 
