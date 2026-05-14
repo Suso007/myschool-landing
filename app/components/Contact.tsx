@@ -153,7 +153,7 @@ export default function ContactSection() {
                             <div className="z-10 bg-white/80 px-4 py-2 rounded border border-slate-300 backdrop-blur-sm">
                                 <p className={`${markerFont.className} text-sm text-slate-500 uppercase tracking-widest mb-1`}>Headquarters</p>
                                 <p className={`${handwrittenFont.className} text-xl md:text-2xl text-slate-900 font-bold`}>
-                                    Katwa, Burdwan, West Bengal
+                                    Bengaluru, Karnataka 560037
                                 </p>
                             </div>
                         </motion.div>

@@ -127,7 +127,7 @@ export function Footer(props: {
                                     <MapPin className="w-4 h-4 text-red-700 stroke-[2]" />
                                 </div>
                                 <span className={`${handwrittenFont.className} text-lg font-bold text-slate-700 leading-tight pt-1`}>
-                                    Katwa, Burdwan, <br /> West Bengal, India
+                                    Hari Hara Nivas, 6th A Cross, Kondappa Layout, Vignan Nagar <br /> Bengaluru, Karnataka 560037, India
                                 </span>
                             </div>
                         </div>
