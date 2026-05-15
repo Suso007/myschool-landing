@@ -136,7 +136,7 @@ export default function ContactSection() {
                             <div className="z-10">
                                 <p className={`${markerFont.className} text-sm text-slate-600 uppercase tracking-widest mb-1`}>Drop an Email</p>
                                 <p className={`${handwrittenFont.className} text-2xl md:text-3xl text-slate-900 font-bold group-hover:text-blue-700 transition-colors`}>
-                                    support@nextorg.in
+                                    info@nextorg.in
                                 </p>
                             </div>
                         </motion.a>

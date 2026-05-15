@@ -110,9 +110,15 @@ export default function HeroSection() {
                         </motion.p>
 
                         <motion.div variants={itemVariants} className="pt-2 md:pt-4">
-                            <Button className="bg-[#d81b60] hover:bg-[#b0164e] text-white font-bold py-6 px-8 md:py-7 md:px-10 rounded shadow-lg text-lg md:text-xl tracking-wider transition-transform hover:-translate-y-1 w-full sm:w-auto">
-                                Explore Platform
-                            </Button>
+                            <a
+                                href="https://school.nextorg.in/"
+                                className="cursor-pointer"
+                                target="_blank"
+                                rel="noopener noreferrer">
+                                <Button className="bg-[#d81b60] hover:bg-[#b0164e] text-white font-bold py-6 px-8 md:py-7 md:px-10 rounded shadow-lg text-lg md:text-xl tracking-wider transition-transform hover:-translate-y-1 w-full sm:w-auto">
+                                    Explore Platform
+                                </Button>
+                            </a>
                         </motion.div>
                     </motion.div>
 
