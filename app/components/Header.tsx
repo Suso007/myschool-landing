@@ -77,7 +77,7 @@ export default function Header() {
                             },
                             {
                                 icon: IconBrandWhatsapp,
-                                href: "https://wa.me/917063139083", // Replace with your actual WhatsApp number (include country code, no +)
+                                href: "https://wa.me/918588885952", // Replace with your actual WhatsApp number (include country code, no +)
                                 hoverColor: "hover:text-green-500"
                             },
                             {

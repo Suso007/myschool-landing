@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { Permanent_Marker, Kalam } from "next/font/google";
+import { IconBrandWhatsapp } from "@tabler/icons-react";
 
 const markerFont = Permanent_Marker({ weight: "400", subsets: ["latin"] });
 const handwrittenFont = Kalam({ weight: ["400", "700"], subsets: ["latin"] });
@@ -162,7 +163,7 @@ export default function ContactSection() {
 
                     {/* Quick WhatsApp CTA Button */}
                     <div className="mt-10 z-20">
-                        <a href="https://wa.me/917063139083" target="_blank" rel="noreferrer">
+                        <a href="https://wa.me/918588885952" target="_blank" rel="noreferrer">
                             <button className={`${markerFont.className} group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#d81b60] text-white text-xl shadow-lg transition-transform hover:scale-105 hover:rotate-1 custom-wiggle-border w-full sm:w-auto`}>
                                 <MessageCircle className="w-6 h-6 stroke-[2.5]" />
                                 <span className="relative z-10">CHAT ON WHATSAPP</span>
