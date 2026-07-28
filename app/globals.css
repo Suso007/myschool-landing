@@ -160,20 +160,25 @@
    border-2/border-4 + border-color utility — this class only adds
    a fainter, offset second stroke behind it so the rectangle reads
    as sketched rather than machine-drawn. */
-.custom-wiggle-border {
-  position: relative;
-  isolation: isolate;
-  border-radius: 3px 9px 5px 8px / 8px 4px 9px 3px;
-}
+@layer components {
+  .custom-wiggle-border {
+    position: relative;
+    isolation: isolate;
+    border-radius: 3px 9px 5px 8px / 8px 4px 9px 3px;
+  }
 
-.custom-wiggle-border::before {
-  content: "";
-  position: absolute;
-  inset: -3px;
-  border: inherit;
-  border-radius: 9px 3px 8px 4px / 3px 8px 4px 9px;
-  opacity: 0.35;
-  transform: rotate(-0.75deg);
-  pointer-events: none;
-  z-index: -1;
+  /* Inherit the final radius so an explicit rounded-* utility (phone bodies,
+     pills, dots) still reads as that shape — the sketch effect comes from the
+     offset + rotation, not from forcing a rectangle. */
+  .custom-wiggle-border::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border: inherit;
+    border-radius: inherit;
+    opacity: 0.35;
+    transform: rotate(-0.75deg);
+    pointer-events: none;
+    z-index: -1;
+  }
 }

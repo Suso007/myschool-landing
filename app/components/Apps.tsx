@@ -185,96 +185,101 @@ export default function MobileAppsShowcase() {
                                     </div>
                                 </motion.div>
 
-                                {/* Visual Side (Hidden on Mobile: hidden lg:flex) */}
+                                {/* Visual Side */}
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.8, rotate: isEven ? 5 : -5 }}
                                     whileInView={{ opacity: 1, scale: 1, rotate: isEven ? 2 : -2 }}
                                     transition={{ duration: 0.6, type: "spring", bounce: 0.5, delay: 0.2 }}
                                     viewport={{ once: true, margin: "-100px" }}
-                                    className="hidden lg:flex flex-1 w-full max-w-md xl:max-w-lg relative justify-center items-center"
+                                    className="flex flex-1 w-full max-w-md xl:max-w-lg relative justify-center items-center px-8 lg:px-0"
                                 >
-                                    {app.type === "web" ? (
-                                        // --- WEB DASHBOARD SKETCH ---
-                                        <div className="relative w-full h-[340px] border-4 border-slate-800 rounded-xl bg-white shadow-xl custom-wiggle-border flex flex-col z-10 overflow-hidden">
-                                            {/* Browser Top Bar */}
-                                            <div className="h-10 border-b-4 border-slate-800 flex items-center px-4 gap-3 bg-slate-100">
-                                                <div className="flex gap-1.5">
-                                                    <div className="w-3.5 h-3.5 rounded-full border-2 border-slate-800 bg-red-400"></div>
-                                                    <div className="w-3.5 h-3.5 rounded-full border-2 border-slate-800 bg-yellow-400"></div>
-                                                    <div className="w-3.5 h-3.5 rounded-full border-2 border-slate-800 bg-green-400"></div>
+                                    {/* Anchor sized to the device itself so the sticky notes hug the
+                                        sketch instead of drifting to the edges of the column. */}
+                                    <div className={`relative ${app.type === "web" ? "w-full" : "w-[220px] sm:w-[260px] lg:w-[280px]"}`}>
+                                        {app.type === "web" ? (
+                                            // --- WEB DASHBOARD SKETCH ---
+                                            <div className="relative w-full h-[280px] sm:h-[320px] lg:h-[340px] border-4 border-slate-800 rounded-xl bg-white shadow-xl custom-wiggle-border flex flex-col z-10 overflow-hidden">
+                                                {/* Browser Top Bar */}
+                                                <div className="h-10 border-b-4 border-slate-800 flex items-center px-4 gap-3 bg-slate-100 shrink-0">
+                                                    <div className="flex gap-1.5">
+                                                        <div className="w-3.5 h-3.5 rounded-full border-2 border-slate-800 bg-red-400"></div>
+                                                        <div className="w-3.5 h-3.5 rounded-full border-2 border-slate-800 bg-yellow-400"></div>
+                                                        <div className="w-3.5 h-3.5 rounded-full border-2 border-slate-800 bg-green-400"></div>
+                                                    </div>
+                                                    <div className="ml-4 flex-1 h-5 border-2 border-slate-800 rounded-full opacity-30 custom-wiggle-border"></div>
                                                 </div>
-                                                <div className="ml-4 flex-1 h-5 border-2 border-slate-800 rounded-full opacity-30 custom-wiggle-border"></div>
-                                            </div>
-                                            {/* Browser Content */}
-                                            <div className={`flex-1 flex ${app.bgColor}`}>
-                                                {/* Sidebar */}
-                                                <div className="w-24 border-r-4 border-slate-800 p-4 flex flex-col gap-4 bg-white/50">
-                                                    <div className="h-3 w-full bg-slate-800 rounded-full opacity-30 custom-wiggle-border"></div>
-                                                    <div className="h-2 w-full bg-slate-800 rounded-full opacity-30 custom-wiggle-border"></div>
-                                                    <div className="h-2 w-full bg-slate-800 rounded-full opacity-30 custom-wiggle-border"></div>
-                                                    <div className="h-2 w-3/4 bg-slate-800 rounded-full opacity-30 custom-wiggle-border mt-auto"></div>
-                                                </div>
-                                                {/* Main Body */}
-                                                <div className="flex-1 p-6 flex flex-col items-center justify-center relative">
-                                                    <AppIcon className={`w-32 h-32 ${app.themeColor} opacity-40`} strokeWidth={1} />
-                                                    {/* Fake graph lines */}
-                                                    <div className="absolute bottom-8 left-8 right-8 flex items-end gap-2 opacity-20">
-                                                        <div className="flex-1 bg-slate-800 h-12 rounded-t-sm custom-wiggle-border"></div>
-                                                        <div className="flex-1 bg-slate-800 h-24 rounded-t-sm custom-wiggle-border"></div>
-                                                        <div className="flex-1 bg-slate-800 h-16 rounded-t-sm custom-wiggle-border"></div>
-                                                        <div className="flex-1 bg-slate-800 h-32 rounded-t-sm custom-wiggle-border"></div>
+                                                {/* Browser Content */}
+                                                <div className={`flex-1 flex min-h-0 ${app.bgColor}`}>
+                                                    {/* Sidebar */}
+                                                    <div className="w-16 sm:w-20 lg:w-24 shrink-0 border-r-4 border-slate-800 p-3 lg:p-4 flex flex-col gap-4 bg-white/50">
+                                                        <div className="h-3 w-full bg-slate-800 rounded-full opacity-30 custom-wiggle-border"></div>
+                                                        <div className="h-2 w-full bg-slate-800 rounded-full opacity-30 custom-wiggle-border"></div>
+                                                        <div className="h-2 w-full bg-slate-800 rounded-full opacity-30 custom-wiggle-border"></div>
+                                                        <div className="h-2 w-3/4 bg-slate-800 rounded-full opacity-30 custom-wiggle-border mt-auto"></div>
+                                                    </div>
+                                                    {/* Main Body */}
+                                                    <div className="flex-1 min-w-0 p-6 flex flex-col items-center justify-center relative">
+                                                        <AppIcon className={`w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 ${app.themeColor} opacity-40`} strokeWidth={1} />
+                                                        {/* Fake graph lines */}
+                                                        <div className="absolute bottom-6 lg:bottom-8 left-6 lg:left-8 right-6 lg:right-8 flex items-end gap-2 opacity-20">
+                                                            <div className="flex-1 bg-slate-800 h-8 lg:h-12 rounded-t-sm custom-wiggle-border"></div>
+                                                            <div className="flex-1 bg-slate-800 h-16 lg:h-24 rounded-t-sm custom-wiggle-border"></div>
+                                                            <div className="flex-1 bg-slate-800 h-11 lg:h-16 rounded-t-sm custom-wiggle-border"></div>
+                                                            <div className="flex-1 bg-slate-800 h-20 lg:h-32 rounded-t-sm custom-wiggle-border"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ) : (
-                                        // --- PHONE SKETCH ---
-                                        <div className="relative w-[280px] h-[580px] border-4 border-slate-800 rounded-[3rem] bg-white shadow-xl custom-wiggle-border overflow-visible flex flex-col z-10">
-                                            {/* Phone Notch/Speaker */}
-                                            <div className="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-3 border-2 border-slate-800 rounded-full custom-wiggle-border" />
+                                        ) : (
+                                            // --- PHONE SKETCH ---
+                                            <div className="relative w-full h-[460px] sm:h-[540px] lg:h-[580px] border-4 border-slate-800 rounded-[3rem] bg-white shadow-xl custom-wiggle-border flex flex-col z-10">
+                                                {/* Phone Notch/Speaker */}
+                                                <div className="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-3 border-2 border-slate-800 rounded-full custom-wiggle-border" />
 
-                                            {/* Phone Screen Area */}
-                                            <div className={`mt-12 mx-4 mb-4 flex-1 border-2 border-slate-800 rounded-2xl ${app.bgColor} custom-wiggle-border flex items-center justify-center relative overflow-hidden`}>
-                                                <AppIcon className={`w-32 h-32 ${app.themeColor} opacity-40`} strokeWidth={1} />
-                                                <div className="absolute top-8 left-4 right-4 space-y-4 opacity-30">
-                                                    <div className="h-2 bg-slate-800 rounded-full w-3/4 custom-wiggle-border" />
-                                                    <div className="h-2 bg-slate-800 rounded-full w-full custom-wiggle-border" />
-                                                    <div className="h-2 bg-slate-800 rounded-full w-5/6 custom-wiggle-border" />
+                                                {/* Phone Screen Area — bottom margin clears the home button */}
+                                                <div className={`mt-10 sm:mt-12 mx-3 sm:mx-4 mb-20 flex-1 min-h-0 border-2 border-slate-800 rounded-2xl ${app.bgColor} custom-wiggle-border flex items-center justify-center relative overflow-hidden`}>
+                                                    <AppIcon className={`w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 ${app.themeColor} opacity-40`} strokeWidth={1} />
+                                                    <div className="absolute top-8 left-4 right-4 space-y-4 opacity-30">
+                                                        <div className="h-2 bg-slate-800 rounded-full w-3/4 custom-wiggle-border" />
+                                                        <div className="h-2 bg-slate-800 rounded-full w-full custom-wiggle-border" />
+                                                        <div className="h-2 bg-slate-800 rounded-full w-5/6 custom-wiggle-border" />
+                                                    </div>
                                                 </div>
+
+                                                {/* Home Button */}
+                                                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-12 h-12 border-2 border-slate-800 rounded-full custom-wiggle-border" />
                                             </div>
+                                        )}
 
-                                            {/* Home Button */}
-                                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-12 h-12 border-2 border-slate-800 rounded-full custom-wiggle-border" />
-                                        </div>
-                                    )}
-
-                                    {/* Floating "Sticky Note" Pills attached to the sketch */}
-                                    {app.visualPills.map((pill, idx) => {
-                                        const PillIcon = pill.icon;
-                                        return (
-                                            <motion.div
-                                                key={idx}
-                                                initial={{ opacity: 0, scale: 0 }}
-                                                whileInView={{ opacity: 1, scale: 1 }}
-                                                transition={{ delay: 0.5 + (idx * 0.2), type: "spring", stiffness: 150 }}
-                                                viewport={{ once: true }}
-                                                className="absolute z-20 flex items-center gap-2 bg-[#fef08a] border-2 border-slate-800 px-3 py-2 shadow-md custom-wiggle-border"
-                                                style={{
-                                                    top: pill.top,
-                                                    bottom: pill.bottom,
-                                                    left: pill.left,
-                                                    right: pill.right,
-                                                    transform: `rotate(${pill.rotate}deg)`
-                                                }}
-                                            >
-                                                <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-red-500 border border-slate-800 z-30" />
-                                                <PillIcon className={`w-4 h-4 ${app.themeColor} stroke-[2]`} />
-                                                <span className={`${handwrittenFont.className} font-bold text-lg text-slate-800 whitespace-nowrap`}>
-                                                    {pill.text}
-                                                </span>
-                                            </motion.div>
-                                        );
-                                    })}
+                                        {/* Floating "Sticky Note" Pills attached to the sketch */}
+                                        {app.visualPills.map((pill, idx) => {
+                                            const PillIcon = pill.icon;
+                                            return (
+                                                <motion.div
+                                                    key={idx}
+                                                    // rotate must live in the motion props — Framer Motion owns the
+                                                    // `transform` style, so a static one here would be overwritten.
+                                                    initial={{ opacity: 0, scale: 0, rotate: pill.rotate }}
+                                                    whileInView={{ opacity: 1, scale: 1, rotate: pill.rotate }}
+                                                    transition={{ delay: 0.5 + (idx * 0.2), type: "spring", stiffness: 150 }}
+                                                    viewport={{ once: true }}
+                                                    className="absolute z-20 flex items-center gap-2 bg-[#fef08a] border-2 border-slate-800 px-2.5 py-1.5 lg:px-3 lg:py-2 shadow-md custom-wiggle-border"
+                                                    style={{
+                                                        top: pill.top,
+                                                        bottom: pill.bottom,
+                                                        left: pill.left,
+                                                        right: pill.right
+                                                    }}
+                                                >
+                                                    <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-red-500 border border-slate-800 z-30" />
+                                                    <PillIcon className={`w-4 h-4 shrink-0 ${app.themeColor} stroke-[2]`} />
+                                                    <span className={`${handwrittenFont.className} font-bold text-base lg:text-lg text-slate-800 whitespace-nowrap`}>
+                                                        {pill.text}
+                                                    </span>
+                                                </motion.div>
+                                            );
+                                        })}
+                                    </div>
                                 </motion.div>
                             </div>
                         );

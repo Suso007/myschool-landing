@@ -135,7 +135,6 @@ const allFeatures = [
 ];
 
 export default function FeaturesSection() {
-    const [studentInput, setStudentInput] = useState("");
 
     return (
         <section id="features" className="py-24 relative font-sans text-slate-800 overflow-hidden">
