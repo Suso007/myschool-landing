@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "School Solutions by NextOrg",
   description: "NextOrg provides school solutions for schools",
   icons: {
-    icon: "/nextorg-icon-color.png",
+    icon: "/icon.png",
   },
 };
 
