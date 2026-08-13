@@ -37,16 +37,16 @@ export default function Header() {
                 hidden: { y: "-100%", transition: { duration: 0.3, ease: "easeInOut" } }
             }}
         >
-            <div className="max-w-7xl mx-auto px-6 pt-3 pb-3 flex justify-between items-center relative z-20">
+            <div className="max-w-7xl mx-auto flex justify-between items-center relative z-20">
 
                 {/* Logo with Spring Entrance */}
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.8, rotate: -15 }}
-                    animate={{ opacity: 1, scale: 1, rotate: -6 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 10, delay: 0.1 }}
-                    className="bg-[#d81b60] text-white px-4 py-1.5 font-bold tracking-wider text-sm shadow-sm"
+                    className="flex items-center gap-3"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 14, delay: 0.1 }}
                 >
-                    NEXTORG
+                    <img src="/logo.png" alt="NextOrg Logo" className="h-20 -my-4 w-auto object-contain" />
                 </motion.div>
 
                 {/* Desktop Nav with Staggered Entrance & Animated Underlines */}

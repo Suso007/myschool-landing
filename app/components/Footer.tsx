@@ -92,10 +92,8 @@ export function Footer(props: {
                         className="lg:col-span-2 flex flex-col items-start"
                     >
                         {/* Stamped Logo Style */}
-                        <Link href="/" className="inline-block mb-6">
-                            <div className="bg-[#d81b60] text-white px-5 py-2 font-bold tracking-wider text-xl transform -skew-x-6 shadow-sm border-2 border-slate-800 custom-wiggle-border transition-transform hover:-rotate-2">
-                                {props.builtBy || "NEXTORG"}
-                            </div>
+                        <Link href="/" className="inline-block">
+                            <img src="/logo.png" alt="NextOrg Logo" className="h-32 w-auto object-contain" />
                         </Link>
 
                         <p className={`${handwrittenFont.className} text-xl text-slate-700 mb-8 max-w-sm leading-relaxed font-bold`}>
@@ -127,7 +125,7 @@ export function Footer(props: {
                                     <MapPin className="w-4 h-4 text-red-700 stroke-[2]" />
                                 </div>
                                 <span className={`${handwrittenFont.className} text-lg font-bold text-slate-700 leading-tight pt-1`}>
-                                    Hari Hara Nivas, 6th A Cross, Kondappa Layout, Vignan Nagar <br /> Bengaluru, Karnataka 560037, India
+                                    Vignan Nagar, Bengaluru, Karnataka 560037, India
                                 </span>
                             </div>
                         </div>
