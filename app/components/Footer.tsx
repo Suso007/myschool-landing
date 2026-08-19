@@ -39,10 +39,14 @@ const footerLinks = {
         { name: "Tutorials", href: "#tutorials" },
     ],
     legal: [
-        { name: "Privacy Policy", href: "#privacy" },
-        { name: "Terms of Service", href: "#terms" },
-        { name: "Cookie Policy", href: "#cookies" },
-        { name: "Security", href: "#security" },
+        { name: "Privacy Policy", href: "/privacy" },
+        { name: "Terms of Service", href: "/terms" },
+        // Cookie & Security policy live as sections inside the Privacy Policy
+        // (privacy-policy.md §9/§11) rather than as standalone documents.
+        // NOTE: these anchors are derived from the current section heading text —
+        // re-check them if those headings are ever renumbered/reworded.
+        { name: "Cookie Policy", href: "/privacy#9-cookies-and-local-storage" },
+        { name: "Security", href: "/privacy#11-security" },
     ],
 };
 

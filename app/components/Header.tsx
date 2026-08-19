@@ -59,7 +59,7 @@ export default function Header() {
                             transition={{ delay: 0.2 + (i * 0.1), type: "spring", stiffness: 120 }}
                         >
                             <Link
-                                href={`#${item.toLowerCase()}`}
+                                href={`/#${item.toLowerCase()}`}
                                 className={`${markerFont.className} relative text-sm tracking-widest uppercase group pb-1 text-slate-700 hover:text-[#d81b60] transition-colors`}
                             >
                                 {item}
@@ -141,7 +141,7 @@ export default function Header() {
                             {['Features', 'Solutions', 'Contact'].map((item) => (
                                 <Link
                                     key={item}
-                                    href={`#${item.toLowerCase()}`}
+                                    href={`/#${item.toLowerCase()}`}
                                     onClick={() => setIsMobileMenuOpen(false)}
                                     className={`${markerFont.className} group relative inline-block text-lg tracking-widest uppercase py-2 border-b border-slate-200 text-slate-700 hover:text-[#d81b60]`}
                                 >
