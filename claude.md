@@ -25,6 +25,7 @@
 9. [Reusable UI Components](#9-reusable-ui-components)
 10. [Content & Contacts](#10-content--contacts)
 11. [Rules for Adding New Sections or Features](#11-rules-for-adding-new-sections-or-features)
+12. [Internal/Admin Pages — Exception to the Design System](#12-internaladmin-pages--deliberate-exception-to-the-design-system)
 
 ---
 
@@ -577,6 +578,46 @@ To add a new location pin to the globe in `Contact.tsx`:
 1. Add to `globeConfig.markers`: `{ location: [lat, lng], size: 0.07 }`
 2. Add arcs to `sampleArcs` pointing to/from the new location.
 3. Update `globeConfig.initialPosition` if needed to reframe the view.
+
+---
+
+## 12. Internal/Admin Pages — Deliberate Exception to the Design System
+
+Everything in §3 (paper/chalk/hand-drawn, exactly two fonts, no "SaaS dashboard" chrome) governs
+**public marketing content**. `/admin/deployment` is not that — it's a password-gated internal
+runbook for engineers running copy-paste shell commands, reading long tables, and wanting dark
+mode for a code-heavy page. Hand-drawn wiggle borders and a Permanent Marker/Kalam pairing would
+actively hurt that job (legibility and scannability over brand personality), so this route
+intentionally uses the site's default Geist/Geist Mono stack, shadcn primitives (`bg-background`,
+`bg-card`, etc. — already dark-mode aware via the existing `next-themes` `ThemeProvider` in
+`components/providers.tsx`), and a clean two-pane docs layout instead. If more internal/admin
+routes get added, keep them consistent with *this* section, not §3 — and don't backport the
+paper-desk theme onto them "for consistency" without being asked; the inconsistency here is
+deliberate, not an oversight.
+
+**Route:** `app/admin/deployment/page.tsx`, gated by a password in `.env`
+(`DEPLOYMENT_DOCS_PASSWORD`) — see `lib/docs-auth.ts` for the (deliberately simple, stateless)
+cookie mechanism: the cookie holds an HMAC derived from the *current* password rather than the
+password itself, so rotating the password in `.env` invalidates every existing session with
+nothing to revoke. `app/admin/deployment/actions.ts` holds the two Server Actions
+(`unlockAction`, `lockAction`).
+
+**Content:** `content/internal/deployment.md` is a vendored copy of `~/Projects/School/
+DEPLOYMENT.md` (a doc spanning all four sibling repos, not part of any single one of them) —
+same vendoring pattern as `content/legal/`, re-synced by hand:
+```bash
+cp ../DEPLOYMENT.md content/internal/deployment.md
+```
+Loaded by `lib/deployment-docs.ts` (title/body/headings, mirrors `lib/legal.ts`) and rendered by
+`components/admin-docs/MarkdownContent.tsx` (react-markdown + remark-gfm; a from-scratch
+`components` map, not a copy of `components/legal/LegalDocument.tsx` — the styling target is
+different on purpose, per above). `components/admin-docs/CodeBlock.tsx` and `HeadingAnchor.tsx`
+are the two bits of that map needing client interactivity (copy-to-clipboard); everything else
+in the render path is a Server Component.
+
+If a second internal doc gets vendored in, follow `content/legal/README.md`'s pattern: add a
+loader (or generalize `deployment-docs.ts`), a route under `app/admin/<name>/`, and reuse
+`components/admin-docs/*` rather than forking it.
 
 ---
 
